@@ -29,10 +29,14 @@ services:
     container_name: "static-site"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.static-site.rule=Host(`foobarspectrum.online`)"  # Replace with your actual domain
-      - "traefik.http.routers.static-site.entrypoints=websecure"
-      - "traefik.http.routers.static-site.tls.certresolver=myresolver"
-      - "traefik.http.middlewares.static-site-https-redirect.redirectscheme.scheme=https"
-      - "traefik.http.middlewares.static-site-https-redirect.redirectscheme.permanent=true"
+      - "traefik.http.middlewares.https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.https-redirect.redirectscheme.permanent=true"
+      - "traefik.http.routers.static-site-http.rule=Host(`foobarspectrum.online`)"
+      - "traefik.http.routers.static-site-http.entrypoints=web"
+      - "traefik.http.routers.static-site-http.middlewares=https-redirect"
+      - "traefik.http.routers.static-site-https.rule=Host(`foobarspectrum.online`)"
+      - "traefik.http.routers.static-site-https.entrypoints=websecure"
+      - "traefik.http.routers.static-site-https.tls.certresolver=myresolver"
+    volumes:
     volumes:
       - "./static_code:/usr/share/nginx/html"
