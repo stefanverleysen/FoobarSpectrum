@@ -1,0 +1,9 @@
+/* Dark theme styles for the visualizer */
+/* Customize these colors for the dark theme */
+
+/* Bar Color */
+#audioVisualizerCanvas {
+    background-color: #222; /* Dark gray background for the visualizer */
+}
+
+/* Add other customizations as needed */

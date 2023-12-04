@@ -1,0 +1,11 @@
+/* Gradient theme styles for the visualizer */
+/* Customize these colors for the gradient theme */
+
+/* Bar Color */
+#audioVisualizerCanvas {
+    background: linear-gradient(to bottom, #FF00CC, #6600CC); /* Gradient background for the visualizer */
+    /* Add vendor prefixes for compatibility */
+    /* For example: background: -webkit-linear-gradient(top, #FF00CC, #6600CC); */
+}
+
+/* Add other customizations as needed */

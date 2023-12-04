@@ -1,0 +1,9 @@
+/* Nature theme styles for the visualizer */
+/* Customize these colors for the nature theme */
+
+/* Bar Color */
+#audioVisualizerCanvas {
+    background-color: #228B22; /* Green background for the visualizer */
+}
+
+/* Add other customizations as needed */
