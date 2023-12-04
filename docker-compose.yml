@@ -13,9 +13,11 @@ services:
       - "--certificatesresolvers.myresolver.acme.storage=acme.json"
       - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web"
       - "--certificatesresolvers.myresolver.acme.storage=/acme.json"
+      - "--api.dashboard=true"  # Enable the Traefik dashboard
     ports:
       - "80:80"
       - "443:443"
+      - "8080:8080"  # Expose Traefik dashboard port
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./acme.json:/acme.json"  # Ensure acme.json is persisted
@@ -30,5 +32,6 @@ services:
       - "traefik.http.routers.static-site.rule=Host(`foobarspectrum.online`)"  # Replace with your actual domain
       - "traefik.http.routers.static-site.entrypoints=websecure"
       - "traefik.http.routers.static-site.tls.certresolver=myresolver"
+      - "traefik.http.routers.static-site.middlewares=https-redirect@file"
     volumes:
       - "./static_code:/usr/share/nginx/html"
