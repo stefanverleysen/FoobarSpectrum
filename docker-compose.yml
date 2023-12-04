@@ -32,6 +32,7 @@ services:
       - "traefik.http.routers.static-site.rule=Host(`foobarspectrum.online`)"  # Replace with your actual domain
       - "traefik.http.routers.static-site.entrypoints=websecure"
       - "traefik.http.routers.static-site.tls.certresolver=myresolver"
-      - "traefik.http.routers.static-site.middlewares=https-redirect@file"
+      - "traefik.http.middlewares.static-site-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.static-site-https-redirect.redirectscheme.permanent=true"
     volumes:
       - "./static_code:/usr/share/nginx/html"
