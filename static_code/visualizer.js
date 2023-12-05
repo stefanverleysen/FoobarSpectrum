@@ -13,7 +13,7 @@ let analyser;
 let microphone;
 let animationId;
 let barCount = 50;
-let backgroundColor = '#333'; // Header color
+let backgroundColor = '#000'; // Header color
 
 // Calculate the width of each bar based on the screen width and number of bars
 function calculateBarWidth() {
