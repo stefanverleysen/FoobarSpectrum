@@ -15,9 +15,17 @@ let animationId;
 let barCount = 50;
 let backgroundColor = '#333'; // Header color
 
+// Calculate the width of each bar based on the screen width and number of bars
+function calculateBarWidth() {
+    const screenWidth = window.innerWidth; // Get the screen width
+    return screenWidth / barCount;
+}
+
+// Update the canvas resolution and initial bar colors
 function setupCanvasResolution() {
     const pixelRatio = window.devicePixelRatio || 1;
-    canvas.width = canvas.offsetWidth * pixelRatio;
+    const barWidth = calculateBarWidth(); // Calculate the bar width dynamically
+    canvas.width = barWidth * barCount * pixelRatio;
     canvas.height = canvas.offsetHeight * pixelRatio;
     canvasCtx.scale(pixelRatio, pixelRatio);
     canvasCtx.fillStyle = backgroundColor; // Set the background color
@@ -33,7 +41,7 @@ function getRandomCyberpunkColor() {
 // Function to set initial bar colors to a random cyberpunk color
 function setInitialBarColors() {
     const randomColor = getRandomCyberpunkColor();
-    const barWidth = (canvas.width / barCount);
+    const barWidth = calculateBarWidth(); // Calculate bar width dynamically
     let x = 0;
 
     for (let i = 0; i < barCount; i++) {
@@ -69,7 +77,7 @@ function startVisualization() {
             analyser.getByteFrequencyData(dataArray);
             canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 
-            const barWidth = (canvas.width / barCount);
+            const barWidth = calculateBarWidth(); // Calculate bar width dynamically
             let x = 0;
 
             for (let i = 0; i < barCount; i++) {
@@ -160,7 +168,7 @@ function changeBarColors() {
     const dataArray = new Uint8Array(bufferLength);
     analyser.getByteFrequencyData(dataArray);
 
-    const barWidth = (canvas.width / barCount);
+    const barWidth = calculateBarWidth(); // Calculate bar width dynamically
     let x = 0;
 
     // Define an array of cyberpunk colors
@@ -180,7 +188,6 @@ function changeBarColors() {
     // Call the draw function to update the visualization
     draw();
 }
-
 
 // Update the bar count value and display it
 function updateBarCountValue() {
