@@ -24,6 +24,25 @@ function setupCanvasResolution() {
     canvasCtx.fillRect(0, 0, canvas.width, canvas.height); // Fill canvas with background color
 }
 
+// Function to generate a random cyberpunk color in hex format
+function getRandomCyberpunkColor() {
+    const cyberpunkColors = ["#FF00FF", "#00FFFF", "#00FF00", "#FF0000", "#FFFF00"];
+    return cyberpunkColors[Math.floor(Math.random() * cyberpunkColors.length)];
+}
+
+// Function to set initial bar colors to a random cyberpunk color
+function setInitialBarColors() {
+    const randomColor = getRandomCyberpunkColor();
+    const barWidth = (canvas.width / barCount);
+    let x = 0;
+
+    for (let i = 0; i < barCount; i++) {
+        canvasCtx.fillStyle = randomColor; // Set bar color to random cyberpunk color
+        canvasCtx.fillRect(x, 0, barWidth, canvas.height);
+        x += barWidth;
+    }
+}
+
 // Function to start visualization (you can add your visualization logic here)
 function startVisualization() {
     if (!navigator.mediaDevices.getUserMedia) {
@@ -40,7 +59,9 @@ function startVisualization() {
 
         microphone.connect(analyser);
         setupCanvasResolution();
+        setInitialBarColors();
 
+        // Define the draw function globally
         function draw() {
             animationId = requestAnimationFrame(draw);
             const bufferLength = analyser.frequencyBinCount;
@@ -49,19 +70,17 @@ function startVisualization() {
             canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 
             const barWidth = (canvas.width / barCount);
-            let barHeight;
             let x = 0;
 
             for (let i = 0; i < barCount; i++) {
-                barHeight = dataArray[i] * (canvas.height / 256);
-                canvasCtx.fillStyle = 'red'; // Set bar color to red
+                const barHeight = dataArray[i] * (canvas.height / 256);
+                canvasCtx.fillStyle = getRandomCyberpunkColor(); // Set bar color to random cyberpunk color
                 canvasCtx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
-
-                x += barWidth + 1;
+                x += barWidth;
             }
         }
 
-        draw();
+        draw(); // Call the draw function when starting visualization
     }).catch(error => {
         console.error('Error accessing microphone:', error);
         alert('Error accessing microphone: ' + error.message);
@@ -81,6 +100,87 @@ function stopVisualization() {
         cancelAnimationFrame(animationId);
     }
 }
+
+// Add the new code for mouse and keyboard interactions here
+
+let isMouseOverCanvas = false;
+let isFullscreen = false;
+let isStopped = true;
+
+// Event listener for mouseover and mouseout on the canvas
+canvas.addEventListener('mouseover', () => {
+    isMouseOverCanvas = true;
+});
+
+canvas.addEventListener('mouseout', () => {
+    isMouseOverCanvas = false;
+});
+// Event listener for double click to toggle fullscreen
+canvas.addEventListener('dblclick', () => {
+    if (!isFullscreen) {
+        // Toggle to fullscreen mode
+        canvas.requestFullscreen();
+    } else {
+        // Exit fullscreen mode
+        document.exitFullscreen();
+    }
+});
+// Event listener for keydown to handle key presses
+document.addEventListener('keydown', (event) => {
+    if (isMouseOverCanvas) {
+        if (event.key === 'Enter' && !isFullscreen) {
+            // Enter key pressed, toggle fullscreen mode
+            isFullscreen = true;
+            canvas.requestFullscreen(); // Use appropriate method for fullscreen
+        } else if (event.key === 'Escape' && isFullscreen) {
+            // Escape key pressed, exit fullscreen mode
+            isFullscreen = false;
+            document.exitFullscreen(); // Use appropriate method to exit fullscreen
+        } else if (event.key === ' ' && !isStopped) {
+            // Space key pressed, stop or start visualization
+            isStopped = true;
+            stopVisualization();
+        } else if (event.key === ' ' && isStopped) {
+            // Space key pressed, stop or start visualization
+            isStopped = false;
+            startVisualization();
+        } else if (event.key === 'ArrowLeft') {
+            // Left arrow key pressed, change bar colors (implement your logic here)
+            changeBarColors('left'); // Implement the function to change colors
+        } else if (event.key === 'ArrowRight') {
+            // Right arrow key pressed, change bar colors (implement your logic here)
+            changeBarColors('right'); // Implement the function to change colors
+        }
+    }
+});
+
+// Function to change bar colors to a random cyberpunk color
+function changeBarColors() {
+    const bufferLength = analyser.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+    analyser.getByteFrequencyData(dataArray);
+
+    const barWidth = (canvas.width / barCount);
+    let x = 0;
+
+    // Define an array of cyberpunk colors
+    const cyberpunkColors = ["#FF00FF", "#00FFFF", "#00FF00", "#FF0000", "#FFFF00"];
+
+    // Get a random cyberpunk color from the array
+    const randomColor = cyberpunkColors[Math.floor(Math.random() * cyberpunkColors.length)];
+
+    for (let i = 0; i < barCount; i++) {
+        const barHeight = dataArray[i] * (canvas.height / 256);
+        canvasCtx.fillStyle = randomColor; // Set bar color to the random color
+        canvasCtx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+
+        x += barWidth + 1;
+    }
+    
+    // Call the draw function to update the visualization
+    draw();
+}
+
 
 // Update the bar count value and display it
 function updateBarCountValue() {
