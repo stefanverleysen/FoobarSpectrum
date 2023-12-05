@@ -6,23 +6,58 @@
     <title>Foobar Spectrum Visualizer</title>
     <link rel="stylesheet" href="styles.css">
     <link id="visualizerThemeStylesheet" rel="stylesheet" href="visualizer-themes/visualizer-theme-default.css">
-    <script>
-        function changeVisualizerTheme(themeName) {
-            const link = document.querySelector("#visualizerThemeStylesheet");
-            link.href = `visualizer-themes/visualizer-theme-${themeName}.css`;
+  
+  <script>
+function changeVisualizerTheme(themeName) {
+    const link = document.querySelector("#visualizerThemeStylesheet");
+    const canvasContainer = document.getElementById('canvasContainer'); // Add this line
+
+    if (link) {
+        switch (themeName) {
+            case 'dark':
+                link.href = 'visualizer-themes/visualizer-theme-dark.css';
+                break;
+            case 'gradient':
+                link.href = 'visualizer-themes/visualizer-theme-gradient.css';
+                break;
+            case 'nature':
+                link.href = 'visualizer-themes/visualizer-theme-nature.css';
+                break;
+            default:
+                link.href = 'visualizer-themes/visualizer-theme-default.css';
+                
         }
+    }
+}
 
-        // Ensure the DOM is fully loaded before attaching the event listener
-        document.addEventListener("DOMContentLoaded", () => {
-            const visualizerThemeSelector = document.querySelector("#visualizerThemeSelector");
+// Ensure the DOM is fully loaded before attaching the event listener
+document.addEventListener("DOMContentLoaded", () => {
+    const visualizerThemeSelector = document.querySelector("#visualizerThemeSelector");
 
-            // Check if the element exists before adding the event listener
-            if (visualizerThemeSelector) {
-                visualizerThemeSelector.addEventListener("change", (event) => {
-                    changeVisualizerTheme(event.target.value);
-                });
-            }
+    // Check if the element exists before adding the event listener
+    if (visualizerThemeSelector) {
+        visualizerThemeSelector.addEventListener("change", (event) => {
+            changeVisualizerTheme(event.target.value);
         });
+    }
+
+    // Add an event listener for the fullscreen button
+    const fullscreenButton = document.getElementById("fullscreenButton");
+    fullscreenButton.addEventListener("click", toggleFullscreen);
+});
+
+// Function to toggle fullscreen mode for the visualizer canvas
+function toggleFullscreen() {
+    const canvas = document.getElementById("audioVisualizerCanvas");
+
+    if (!document.fullscreenElement) {
+        canvas.requestFullscreen().catch(err => {
+            alert(`Error attempting to enable fullscreen: ${err.message}`);
+        });
+    } else {
+        document.exitFullscreen();
+    }
+}
     </script>
 </head>
 <body>
@@ -40,10 +75,10 @@
                 <div id="basicControls" class="card">
                     <button id="startVisualization">Start</button>
                     <button id="stopVisualization">Stop</button>
+                    <button id="fullscreenButton">Fullscreen</button>
                 </div>
                 <div id="advancedControls" class="card">
-                    <label for="visualizerThemeSelector">Select Visualizer Theme:</label>
-                    <select id="visualizerThemeSelector">
+                    <select id="visualizerThemeSelector" style="display: none;">
                         <option value="default">Default</option>
                         <option value="dark">Dark Theme</option>
                         <option value="gradient">Gradient Theme</option>
