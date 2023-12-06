@@ -84,7 +84,13 @@ function toggleFullscreen() {
                     <button id="stopVisualization">Stop</button>
                     <button id="fullscreenButton">Fullscreen</button>
                 </div>
-           
+                <div id="advancedControls" class="card">
+                    <select id="visualizerThemeSelector" style="display: none;">
+                        <option value="default">Default</option>
+                        <option value="dark">Dark Theme</option>
+                        <option value="gradient">Gradient Theme</option>
+                        <option value="nature">Nature Theme</option>
+                    </select>
                     <div id="fftSizeComponents" style="display: none;">
                         <label for="fftSizeSlider">FFT Size: <span id="fftSizeValue">2048</span></label>
                         <input type="range" id="fftSizeSlider" min="32" max="32768" value="2048" title="Move to balance frequency detail and time precision in visualization.">
