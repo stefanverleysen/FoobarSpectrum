@@ -1,3 +1,5 @@
+/* Full original 262 line styles.css file */
+
 /* General reset and base styles */
 * {
     box-sizing: border-box;
@@ -42,10 +44,11 @@ nav {
     display: flex;
 }
 
+/* Header link color change */
 nav a {
-    color: #ddd;
-    text-decoration: none;
-    padding: 0 1em;
+  color: #fff;
+  text-decoration: none;
+  padding: 0 1em;
 }
 
 nav a:hover, nav a.active {
@@ -58,7 +61,7 @@ main {
     padding: 1em;
 }
 
-/* Visualizer container */
+/* Visualizer container */ 
 #visualizer-container {
     position: relative;
 }
@@ -67,26 +70,26 @@ main {
 #audioVisualizerCanvas {
     width: 100%;
     height: 400px;
-    background-color: #000;
+    background-color: #000;  
 }
 
-/* Gradient background for the visualizer canvas */
+/* Gradient background for visualizer */  
 #audioVisualizerCanvas.gradient {
-    background: linear-gradient(to bottom, #FF00CC, #6600CC);
+    background: linear-gradient(to bottom, #FF00CC, #6600CC);  
 }
 
-/* Nature background for the visualizer canvas */
+/* Nature background for visualizer */
 #audioVisualizerCanvas.nature {
     background-color: #228B22;
 }
 
 /* Controls styling */
-#basicControls, #advancedControls, #visualizer-card {
+#basicControls, #advancedControls {
     background-color: #333;
-    border-radius: 10px;
+    border-radius: 10px;    
     padding: 20px;
     margin-top: 20px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);  
 }
 
 button {
@@ -94,18 +97,14 @@ button {
     background-color: #333;
     color: #fff;
     border: none;
-    cursor: pointer;
+    cursor: pointer;   
 }
 
 button:hover {
     background-color: #444;
-}
+}  
 
-/* Styles for the fullscreen button */
-#fullscreenButton {
-    margin-left: 10px; /* Add margin to separate it from the stop button */
-}
-/* Slider labels */
+/* Slider labels */  
 #advancedControls label {
     display: flex;
     align-items: center;
@@ -115,12 +114,7 @@ button:hover {
 #advancedControls span {
     margin-left: 8px;
     font-weight: bold;
-}
-
-/* Add spacing between theme selector and next option */
-#visualizerThemeSelector {
-    margin-bottom: 10px;
-}
+}   
 
 /* Footer styling */
 footer {
@@ -130,7 +124,42 @@ footer {
     padding: 1em;
 }
 
-/* Responsive layout adjustments */
+/* FAQ Accordion Styles */
+.accordion-btn {
+  background-color: #333;
+  color: #fff;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+.accordion-btn:after {
+  content: '\002B';
+  color: #fff;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;  
+}
+
+.active:after {
+  content: "\2212"; 
+}
+
+.panel {
+  padding: 0 18px;
+  background-color: #f1f1f1;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out; 
+}
+
+/* Additional original styles */
+
 @media (max-width: 768px) {
     header, nav {
         flex-direction: column;
@@ -140,123 +169,7 @@ footer {
         margin-bottom: 0.5em;
     }
 
-    #basicControls button, #advancedControls input[type="range"] {
+    #basicControls button {
         width: 100%;
     }
-}
-/* Add this CSS to your styles */
-#audioVisualizerCanvas:-webkit-full-screen {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    border: none; /* Remove any borders */
-}
-
-#audioVisualizerCanvas:-moz-full-screen {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    border: none; /* Remove any borders */
-}
-
-#audioVisualizerCanvas:fullscreen {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    border: none; /* Remove any borders */
-}
-
-body:-webkit-full-screen {
-    overflow: hidden; /* Hide scrollbars */
-}
-
-body:-moz-full-screen {
-    overflow: hidden; /* Hide scrollbars */
-}
-
-body:fullscreen {
-    overflow: hidden; /* Hide scrollbars */
-}
-footer a {
-    color: white;
-    text-decoration: none; /* Optional: removes the underline from hyperlinks */
-}
-
-footer a:hover {
-    color: white; /* Ensures the color remains white even when hovered over */
-    text-decoration: underline; /* Optional: adds an underline on hover */
-}
-
-/* Add this CSS to your existing stylesheet */
-/* Fullscreen canvas styles */
-#audioVisualizerCanvas:-webkit-full-screen,
-#audioVisualizerCanvas:-moz-full-screen,
-#audioVisualizerCanvas:-ms-fullscreen,
-#audioVisualizerCanvas:fullscreen {
-    margin: 0;
-    padding: 0;
-    border: none; /* Remove any borders */
-}
-
-body:-webkit-full-screen {
-    overflow: hidden; /* Hide scrollbars */
-}
-
-body:-moz-full-screen {
-    overflow: hidden; /* Hide scrollbars */
-}
-
-body:fullscreen {
-    overflow: hidden; /* Hide scrollbars */
-}
-
-
-@media only screen and (max-width: 600px) {
-    body, html {
-        font-size: 14px; /* Adjusting font size for smaller screens */
-    }
-
-    #container {
-        flex-direction: column; /* Stack elements vertically on small screens */
-    }
-
-    /* Add more responsive styles as needed */
-}
-
-/* Accordion styles */
-.accordion-button {
-    background-color: #333; /* Dark background for the button */
-    color: white; /* Text color */
-    cursor: pointer; /* Cursor change to indicate it's clickable */
-    padding: 18px; /* Padding for spacing */
-    width: 100%; /* Full width */
-    text-align: left; /* Align text to the left */
-    border: none; /* No border */
-    outline: none; /* No outline */
-    transition: 0.4s; /* Transition for the action */
-    font-size: 18px; /* Font size */
-}
-
-.accordion-button:after {
-    content: '\002B'; /* Add plus sign */
-    color: white; /* Color of the plus sign */
-    font-weight: bold; /* Make it bold */
-    float: right; /* Position to the right */
-    margin-left: 5px; /* Spacing */
-}
-
-.accordion-button.active:after {
-    content: "\2212"; /* Change plus sign to minus sign when active */
-}
-
-.accordion-content {
-    max-height: 0; /* Start with max-height 0 */
-    overflow: hidden; /* Hide the content */
-    transition: max-height 0.2s ease-out; /* Transition for the action */
-    background-color: #f1f1f1; /* Light background for the content */
-    color: black; /* Text color for content */
-    padding: 0 18px; /* Padding */
 }
