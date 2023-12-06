@@ -120,19 +120,6 @@ canvas.addEventListener('mouseover', () => {
     isMouseOverCanvas = true;
 });
 
-canvas.addEventListener('mouseout', () => {
-    isMouseOverCanvas = false;
-});
-// Event listener for double click to toggle fullscreen
-canvas.addEventListener('dblclick', () => {
-    if (!isFullscreen) {
-        // Toggle to fullscreen mode
-        canvas.requestFullscreen();
-    } else {
-        // Exit fullscreen mode
-        document.exitFullscreen();
-    }
-});
 // Event listener for keydown to handle key presses
 document.addEventListener('keydown', (event) => {
     if (isMouseOverCanvas) {
@@ -161,6 +148,21 @@ document.addEventListener('keydown', (event) => {
         }
     }
 });
+
+canvas.addEventListener('mouseout', () => {
+    isMouseOverCanvas = false;
+});
+// Event listener for double click to toggle fullscreen
+canvas.addEventListener('dblclick', () => {
+    if (!isFullscreen) {
+        // Toggle to fullscreen mode
+        canvas.requestFullscreen();
+    } else {
+        // Exit fullscreen mode
+        document.exitFullscreen();
+    }
+});
+
 
 // Function to change bar colors to a random cyberpunk color
 function changeBarColors() {
