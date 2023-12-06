@@ -12,7 +12,7 @@ let audioContext;
 let analyser;
 let microphone;
 let animationId;
-let barCount = 444;
+let barCount = 50;
 let backgroundColor = '#000'; // Header color
 
 // Calculate the width of each bar based on the screen width and number of bars
@@ -220,3 +220,24 @@ updateBarCountValue();
 updateFFTSizeValue();
 updateSmoothingValue();
 setupCanvasResolution();
+
+
+// Listen for fullscreen change events
+document.addEventListener('fullscreenchange', adjustCanvasSize);
+
+function adjustCanvasSize() {
+    var canvas = document.getElementById('audioVisualizerCanvas');
+    if (document.fullscreenElement) {
+        // We are in fullscreen mode, adjust the canvas to the screen size
+        canvas.width = window.screen.width;
+        canvas.height = window.screen.height;
+    } else {
+        // Exited fullscreen mode, adjust the canvas to its default size
+        // Here we assume that the canvas should match the width of its parent element
+        // This will need to be adjusted if a different size is required
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = canvas.parentElement.offsetHeight;
+    }
+    // Reinitialize or redraw the canvas content as needed here
+    // For example, if you have a function that needs to be called to redraw the visualizer do it here
+}
