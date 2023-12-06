@@ -21,6 +21,10 @@ body, html {
     background-color: #1a1a1a; /* Set background color */
 }
 
+#foobar-title {
+    font-weight: bold;
+}
+
 /* Header styling */
 header {
     display: flex;
