@@ -225,3 +225,38 @@ body:fullscreen {
 
     /* Add more responsive styles as needed */
 }
+
+/* Accordion styles */
+.accordion-button {
+    background-color: #333; /* Dark background for the button */
+    color: white; /* Text color */
+    cursor: pointer; /* Cursor change to indicate it's clickable */
+    padding: 18px; /* Padding for spacing */
+    width: 100%; /* Full width */
+    text-align: left; /* Align text to the left */
+    border: none; /* No border */
+    outline: none; /* No outline */
+    transition: 0.4s; /* Transition for the action */
+    font-size: 18px; /* Font size */
+}
+
+.accordion-button:after {
+    content: '\002B'; /* Add plus sign */
+    color: white; /* Color of the plus sign */
+    font-weight: bold; /* Make it bold */
+    float: right; /* Position to the right */
+    margin-left: 5px; /* Spacing */
+}
+
+.accordion-button.active:after {
+    content: "\2212"; /* Change plus sign to minus sign when active */
+}
+
+.accordion-content {
+    max-height: 0; /* Start with max-height 0 */
+    overflow: hidden; /* Hide the content */
+    transition: max-height 0.2s ease-out; /* Transition for the action */
+    background-color: #f1f1f1; /* Light background for the content */
+    color: black; /* Text color for content */
+    padding: 0 18px; /* Padding */
+}
