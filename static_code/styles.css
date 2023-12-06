@@ -173,3 +173,13 @@ footer {
         width: 100%;
     }
 }
+
+/* Full original CSS plus... */
+
+.accordion-btn.active {
+  background-color: #666; 
+}
+
+.panel {
+  background-color: #eee;
+}
