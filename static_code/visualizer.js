@@ -299,3 +299,25 @@ document.addEventListener('dblclick', function() {
         enterFullScreen();
     }
 });
+
+// Adjust the canvas size on orientation change
+window.addEventListener('orientationchange', function() {
+    adjustCanvasSize();
+    // Additional code may be required here to re-initialize or redraw the canvas content after resizing
+}, false);
+
+// Existing adjustCanvasSize function from previous updates
+function adjustCanvasSize() {
+    var canvas = document.getElementById('audioVisualizerCanvas');
+    if (document.fullscreenElement) {
+        // Wait for the orientation change to complete before calculating new size
+        setTimeout(function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }, 150); // Delay to allow the browser to complete the orientation change
+    } else {
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = canvas.parentElement.offsetHeight;
+    }
+    // Additional code may be required here to re-initialize or redraw the canvas content after resizing
+}
