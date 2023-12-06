@@ -158,7 +158,15 @@ footer {
     transition: max-height 0.2s ease-out;
     display: none; /* This can be adjusted based on your JavaScript functionality */
 }
+/* Specific style for footer links */
+footer a {
+    color: #fff; /* This will make the links white */
+    text-decoration: none; /* Optional: removes the underline from links */
+}
 
+footer a:hover {
+    color: #ccc; /* Optional: changes color on hover for visual feedback */
+}
 
 /* Additional original styles */
 
