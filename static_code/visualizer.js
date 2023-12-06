@@ -12,7 +12,7 @@ let audioContext;
 let analyser;
 let microphone;
 let animationId;
-let barCount = 50;
+let barCount = 444;
 let backgroundColor = '#000'; // Header color
 
 // Calculate the width of each bar based on the screen width and number of bars
