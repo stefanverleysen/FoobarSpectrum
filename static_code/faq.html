@@ -19,14 +19,38 @@
 <body>
     <div id="container">
         <header>
+<nav>
+    <ul>
+        <li><a href="index.html">FoobarSpectrum</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+    </ul>
+</nav>
+
+                <a href="index.html" id="foobar-title">Foobar Spectrum</a>
+                <!-- Other links if any -->
+            </nav>
             <img src="Foobarspectrumlogo2.png" alt="Foobar Spectrum Logo" id="logo">
-            <nav>
+            
+<nav>
+    <ul>
+        <li><a href="index.html">FoobarSpectrum</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+    </ul>
+</nav>
+
                 <a href="index.html" id="foobar-title">Foobar Spectrum</a>
                 <!-- Other links if any -->
             </nav>
         </header>
             <!-- Navigation Bar -->
-            <nav>
+            
+<nav>
+    <ul>
+        <li><a href="index.html">FoobarSpectrum</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+    </ul>
+</nav>
+
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="faq.html" class="active">FAQ</a></li>
@@ -37,7 +61,7 @@
         <main>
             <!-- FAQ Accordion Section -->
             <section id="faq-accordion">
-                <h2>Frequently Asked Questions</h2>
+                <h2>Frequently Asked Questions</h2><div style="padding: 20px;"></div>
 
                 <div class="accordion-item">
                     <button class="accordion-button" onclick="toggleAccordion(this)">1. What is Foobar Spectrum?</button>
@@ -79,5 +103,16 @@
             } 
         }
     </script>
+
+<script>
+    function toggleAccordion(buttonElement) {
+        var content = buttonElement.nextElementSibling;
+        if (content.style.display === "block") {
+            content.style.display = "none";
+        } else {
+            content.style.display = "block";
+        }
+    }
+</script>
 </body>
 </html>
