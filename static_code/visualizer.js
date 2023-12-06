@@ -120,35 +120,6 @@ canvas.addEventListener('mouseover', () => {
     isMouseOverCanvas = true;
 });
 
-// Event listener for keydown to handle key presses
-document.addEventListener('keydown', (event) => {
-    if (isMouseOverCanvas) {
-        if (event.key === 'Enter' && !isFullscreen) {
-            // Enter key pressed, toggle fullscreen mode
-            isFullscreen = true;
-            canvas.requestFullscreen(); // Use appropriate method for fullscreen
-        } else if (event.key === 'Escape' && isFullscreen) {
-            // Escape key pressed, exit fullscreen mode
-            isFullscreen = false;
-            document.exitFullscreen(); // Use appropriate method to exit fullscreen
-        } else if (event.key === ' ' && !isStopped) {
-            // Space key pressed, stop or start visualization
-            isStopped = true;
-            stopVisualization();
-        } else if (event.key === ' ' && isStopped) {
-            // Space key pressed, stop or start visualization
-            isStopped = false;
-            startVisualization();
-        } else if (event.key === 'ArrowLeft') {
-            // Left arrow key pressed, change bar colors (implement your logic here)
-            changeBarColors('left'); // Implement the function to change colors
-        } else if (event.key === 'ArrowRight') {
-            // Right arrow key pressed, change bar colors (implement your logic here)
-            changeBarColors('right'); // Implement the function to change colors
-        }
-    }
-});
-
 canvas.addEventListener('mouseout', () => {
     isMouseOverCanvas = false;
 });
@@ -213,6 +184,36 @@ document.getElementById('stopVisualization').addEventListener('click', stopVisua
 barCountSlider.addEventListener('input', updateBarCountValue);
 fftSizeSlider.addEventListener('input', updateFFTSizeValue);
 smoothingSlider.addEventListener('input', updateSmoothingValue);
+
+// Event listener for keydown to handle key presses
+document.addEventListener('keydown', (event) => {
+    if (isMouseOverCanvas) {
+        if (event.key === 'Enter' && !isFullscreen) {
+            // Enter key pressed, toggle fullscreen mode
+            isFullscreen = true;
+            canvas.requestFullscreen(); // Use appropriate method for fullscreen
+        } else if (event.key === 'Escape' && isFullscreen) {
+            // Escape key pressed, exit fullscreen mode
+            isFullscreen = false;
+            document.exitFullscreen(); // Use appropriate method to exit fullscreen
+        } else if (event.key === ' ' && !isStopped) {
+            // Space key pressed, stop or start visualization
+            isStopped = true;
+            stopVisualization();
+        } else if (event.key === ' ' && isStopped) {
+            // Space key pressed, stop or start visualization
+            isStopped = false;
+            startVisualization();
+        } else if (event.key === 'ArrowLeft') {
+            // Left arrow key pressed, change bar colors (implement your logic here)
+            changeBarColors('left'); // Implement the function to change colors
+        } else if (event.key === 'ArrowRight') {
+            // Right arrow key pressed, change bar colors (implement your logic here)
+            changeBarColors('right'); // Implement the function to change colors
+        }
+    }
+});
+
 
 // Initialize values
 updateBarCountValue();
