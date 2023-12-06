@@ -363,3 +363,25 @@ document.addEventListener('dblclick', function() {
         enterFullScreen();
     }
 });
+
+// Custom function to handle double-tap for iOS devices
+let lastTap = 0;
+function handleDoubleTap(event) {
+    const currentTime = new Date().getTime();
+    const tapLength = currentTime - lastTap;
+    if (tapLength < 500 && tapLength > 0) {
+        // Detected a double-tap, toggle fullscreen
+        if (document.fullscreenElement) {
+            exitFullScreen();
+        } else {
+            enterFullScreen();
+        }
+    }
+    lastTap = currentTime;
+}
+
+// Add touch event listeners for iOS devices
+document.getElementById('audioVisualizerCanvas').addEventListener('touchend', handleDoubleTap);
+
+// Existing fullscreen functions from previous updates
+// ... (Include the existing enterFullScreen and exitFullScreen functions)
