@@ -12,7 +12,7 @@ let audioContext;
 let analyser;
 let microphone;
 let animationId;
-let barCount = 50;
+let barCount = 100;
 let backgroundColor = '#000'; // Header color
 
 // Calculate the width of each bar based on the screen width and number of bars
@@ -221,23 +221,81 @@ updateFFTSizeValue();
 updateSmoothingValue();
 setupCanvasResolution();
 
+document.addEventListener('dblclick', function() {
+    if (document.fullscreenElement) {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) { /* Safari */
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { /* IE11 */
+            document.msExitFullscreen();
+        }
+    }
+});
 
-// Listen for fullscreen change events
+// Adjust the canvas size on entering and exiting fullscreen
 document.addEventListener('fullscreenchange', adjustCanvasSize);
 
 function adjustCanvasSize() {
     var canvas = document.getElementById('audioVisualizerCanvas');
     if (document.fullscreenElement) {
-        // We are in fullscreen mode, adjust the canvas to the screen size
         canvas.width = window.screen.width;
         canvas.height = window.screen.height;
     } else {
-        // Exited fullscreen mode, adjust the canvas to its default size
-        // Here we assume that the canvas should match the width of its parent element
-        // This will need to be adjusted if a different size is required
         canvas.width = canvas.parentElement.offsetWidth;
         canvas.height = canvas.parentElement.offsetHeight;
     }
-    // Reinitialize or redraw the canvas content as needed here
-    // For example, if you have a function that needs to be called to redraw the visualizer do it here
+    // Additional code may be required here to re-initialize or redraw the canvas content after resizing
 }
+
+// Function to handle entering fullscreen, adjusted for mobile compatibility
+function enterFullScreen() {
+    var canvas = document.getElementById('audioVisualizerCanvas');
+    if (canvas.requestFullscreen) {
+        canvas.requestFullscreen();
+    } else if (canvas.mozRequestFullScreen) { // Firefox
+        canvas.mozRequestFullScreen();
+    } else if (canvas.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+        canvas.webkitRequestFullscreen();
+    } else if (canvas.msRequestFullscreen) { // IE/Edge
+        canvas.msRequestFullscreen();
+    }
+}
+
+// Function to handle exiting fullscreen
+function exitFullScreen() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) { // Safari
+        document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { // IE11
+        document.msExitFullscreen();
+    }
+}
+
+// Event listener for canvas to enter fullscreen on click
+document.getElementById('audioVisualizerCanvas').addEventListener('click', enterFullScreen);
+
+// Adjust the canvas size on entering and exiting fullscreen
+document.addEventListener('fullscreenchange', adjustCanvasSize);
+
+function adjustCanvasSize() {
+    var canvas = document.getElementById('audioVisualizerCanvas');
+    if (document.fullscreenElement) {
+        canvas.width = window.screen.width;
+        canvas.height = window.screen.height;
+    } else {
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = canvas.parentElement.offsetHeight;
+    }
+    // Additional code may be required here to re-initialize or redraw the canvas content after resizing
+}
+
+// Add double-click event listener to toggle fullscreen mode
+document.addEventListener('dblclick', function() {
+    if (document.fullscreenElement) {
+        exitFullScreen();
+    } else {
+        enterFullScreen();
+    }
+});
