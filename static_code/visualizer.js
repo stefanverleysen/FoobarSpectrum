@@ -383,5 +383,46 @@ function handleDoubleTap(event) {
 // Add touch event listeners for iOS devices
 document.getElementById('audioVisualizerCanvas').addEventListener('touchend', handleDoubleTap);
 
-// Existing fullscreen functions from previous updates
-// ... (Include the existing enterFullScreen and exitFullScreen functions)
+// Fullscreen functions
+function enterFullScreen() {
+    var canvas = document.getElementById('audioVisualizerCanvas');
+    if (!document.fullscreenElement) {
+        if (canvas.requestFullscreen) {
+            canvas.requestFullscreen();
+        } else if (canvas.mozRequestFullScreen) {
+            canvas.mozRequestFullScreen();
+        } else if (canvas.webkitRequestFullscreen) {
+            canvas.webkitRequestFullscreen();
+        } else if (canvas.msRequestFullscreen) {
+            canvas.msRequestFullscreen();
+        }
+        setTimeout(adjustCanvasSize, 100);
+    }
+}
+
+function exitFullScreen() {
+    if (document.fullscreenElement) {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        }
+        setTimeout(adjustCanvasSize, 100);
+    }
+}
+
+// Adjust the canvas size on entering and exiting fullscreen
+document.addEventListener('fullscreenchange', adjustCanvasSize);
+
+function adjustCanvasSize() {
+    var canvas = document.getElementById('audioVisualizerCanvas');
+    if (document.fullscreenElement) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    } else {
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = canvas.parentElement.offsetHeight;
+    }
+}
