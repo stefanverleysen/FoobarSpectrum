@@ -426,3 +426,23 @@ function adjustCanvasSize() {
         canvas.height = canvas.parentElement.offsetHeight;
     }
 }
+
+// Custom function to request fullscreen for iOS devices
+function requestFullscreenIOS(element) {
+    if (element.webkitEnterFullscreen) {
+        element.webkitEnterFullscreen(); // For iPhone
+    } else if (element.requestFullscreen) {
+        element.requestFullscreen();
+    } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+    } else if (element.webkitRequestFullscreen) {
+        element.webkitRequestFullscreen();
+    } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+    }
+}
+
+// Use touchstart event to trigger fullscreen on iOS
+document.getElementById('audioVisualizerCanvas').addEventListener('touchstart', function() {
+    requestFullscreenIOS(this);
+});
