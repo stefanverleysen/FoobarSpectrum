@@ -321,3 +321,45 @@ function adjustCanvasSize() {
     }
     // Additional code may be required here to re-initialize or redraw the canvas content after resizing
 }
+
+// Refine the enterFullScreen function
+function enterFullScreen() {
+    var canvas = document.getElementById('audioVisualizerCanvas');
+    if (!document.fullscreenElement) {
+        if (canvas.requestFullscreen) {
+            canvas.requestFullscreen();
+        } else if (canvas.mozRequestFullScreen) { // Firefox
+            canvas.mozRequestFullScreen();
+        } else if (canvas.webkitRequestFullscreen) { // Chrome, Safari, and Opera
+            canvas.webkitRequestFullscreen();
+        } else if (canvas.msRequestFullscreen) { // IE/Edge
+            canvas.msRequestFullscreen();
+        }
+        // After entering fullscreen, ensure the canvas size is correct
+        setTimeout(adjustCanvasSize, 100); // Delay to account for browser timing
+    }
+}
+
+// Refine the exitFullScreen function
+function exitFullScreen() {
+    if (document.fullscreenElement) {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) { // Safari
+            document.webkitExitFullscreen();
+        } else if (document.msExitFullscreen) { // IE11
+            document.msExitFullscreen();
+        }
+        // After exiting fullscreen, ensure the canvas size is correct
+        setTimeout(adjustCanvasSize, 100); // Delay to account for browser timing
+    }
+}
+
+// Double-click event listener to toggle fullscreen mode
+document.addEventListener('dblclick', function() {
+    if (document.fullscreenElement) {
+        exitFullScreen();
+    } else {
+        enterFullScreen();
+    }
+});
