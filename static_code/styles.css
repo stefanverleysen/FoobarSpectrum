@@ -151,12 +151,14 @@ footer {
 }
 
 .panel {
-  padding: 0 18px;
-  background-color: #f1f1f1;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.2s ease-out; 
+    padding: 0 18px;
+    background-color: white; /* Choose the desired background color */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    display: none; /* This can be adjusted based on your JavaScript functionality */
 }
+
 
 /* Additional original styles */
 
@@ -180,9 +182,6 @@ footer {
   background-color: #666; 
 }
 
-.panel {
-  background-color: #eee;
-}
 
 .accordion {
     background-color: #eee;
@@ -200,9 +199,3 @@ footer {
     background-color: #ccc;
 }
 
-.panel {
-    padding: 0 18px;
-    background-color: white;
-    display: none;
-    overflow: hidden;
-}
