@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Foobar Spectrum Visualizer</title>
-    <link rel="stylesheet" href="updated_styles.css">  
+    <link rel="stylesheet" href="styles.css">  
  <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-01JKEKRL8S"></script>
 <script>
@@ -84,13 +84,7 @@ function toggleFullscreen() {
                     <button id="stopVisualization">Stop</button>
                     <button id="fullscreenButton">Fullscreen</button>
                 </div>
-                <div id="advancedControls" class="card">
-                    <select id="visualizerThemeSelector" style="display: none;">
-                        <option value="default">Default</option>
-                        <option value="dark">Dark Theme</option>
-                        <option value="gradient">Gradient Theme</option>
-                        <option value="nature">Nature Theme</option>
-                    </select>
+           
                     <div id="fftSizeComponents" style="display: none;">
                         <label for="fftSizeSlider">FFT Size: <span id="fftSizeValue">2048</span></label>
                         <input type="range" id="fftSizeSlider" min="32" max="32768" value="2048" title="Move to balance frequency detail and time precision in visualization.">
@@ -101,49 +95,6 @@ function toggleFullscreen() {
                     <input type="range" id="smoothingSlider" min="0" max="1" step="0.01" value="0.8" title="Slide to smooth out rapid changes, higher values for more fluid display.">
                 </div>
             </div>
-            <div class="card">
-    <div class="card-header">FAQ</div>
-    <div class="card-body">
-        <div id="accordion">
-            <div class="card">
-                <div class="card-header">
-                    <a class="card-link" data-toggle="collapse" href="#collapseOne">
-                        Question #1
-                    </a>
-                </div>
-                <div id="collapseOne" class="collapse show" data-parent="#accordion">
-                    <div class="card-body">
-                        Answer #1
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <a class="card-link" data-toggle="collapse" href="#collapseTwo">
-                        Question #2
-                    </a>
-                </div>
-                <div id="collapseTwo" class="collapse" data-parent="#accordion">
-                    <div class="card-body">
-                        Answer #2
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-header">
-                    <a class="card-link" data-toggle="collapse" href="#collapseThree">
-                        Question #3
-                    </a>
-                </div>
-                <div id="collapseThree" class="collapse" data-parent="#accordion">
-                    <div class="card-body">
-                        Answer #3
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
         </main>
         <footer>
     <p>&copy; 2023 Foobar Spectrum by <a href="https://asan.digital" target="_blank">Asan Digital</a></p>
