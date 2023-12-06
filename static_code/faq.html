@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foobar Spectrum - FAQ</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Google Analytics Tag -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-01JKEKRL8S"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-01JKEKRL8S');
+    </script>
+</head>
+<body>
+    <div id="container">
+        <header>
+            <!-- Navigation Bar -->
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="faq.html" class="active">FAQ</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <!-- FAQ Accordion Section -->
+            <section id="faq-accordion">
+                <h2>Frequently Asked Questions</h2>
+
+                <div class="accordion-item">
+                    <button class="accordion-button" onclick="toggleAccordion(this)">1. What is Foobar Spectrum?</button>
+                    <div class="accordion-content">
+                        <p>Foobar Spectrum is a dynamic audio visualizer that offers real-time graphical representation of soundtracks. It helps users to visually experience their music through spectrum analysis.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-button" onclick="toggleAccordion(this)">2. How does the Spectrum Analyzer Work?</button>
+                    <div class="accordion-content">
+                        <p>The spectrum analyzer in Foobar Spectrum works by breaking down audio signals into individual frequency components to create a visual representation of the sound, enabling users to see the intricate details of their music.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-button" onclick="toggleAccordion(this)">3. How can I support this project?</button>
+                    <div class="accordion-content">
+                        <p>You can support the Foobar Spectrum project by contributing to its development, providing feedback, or making donations. Every bit of support helps us improve and evolve.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <!-- Footer Content -->
+        </footer>
+    </div>
+
+    <script>
+        function toggleAccordion(buttonElement) {
+            var content = buttonElement.nextElementSibling;
+            if (content.style.maxHeight){
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            } 
+        }
+    </script>
+</body>
+</html>
