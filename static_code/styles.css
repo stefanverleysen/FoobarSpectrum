@@ -204,3 +204,15 @@ body:fullscreen {
     overflow: hidden; /* Hide scrollbars */
 }
 
+
+@media only screen and (max-width: 600px) {
+    body, html {
+        font-size: 14px; /* Adjusting font size for smaller screens */
+    }
+
+    #container {
+        flex-direction: column; /* Stack elements vertically on small screens */
+    }
+
+    /* Add more responsive styles as needed */
+}
