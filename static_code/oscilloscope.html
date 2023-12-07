@@ -6,33 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Foobar Oscilloscope</title>
     <link rel="stylesheet" href="styles.css">  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-01JKEKRL8S"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-01JKEKRL8S');
+    </script> 
+    
+	<!-- Include any additional scripts needed for oscilloscope functionality -->
 </head>
 <body>
-    <!-- Header (as per the spectrum visualizer page) -->
-    <header>
-        <!-- Placeholder for actual header content (logo and navigation) -->
-    </header>
-
-    <main>
-        <section id="visualizer-container">
-            <h1>Foobar Oscilloscope</h1>
-            <canvas id="oscilloscopeCanvas"></canvas>
-            <div class="controls">
-                <button id="startButton">Start</button>
-                <button id="stopButton">Stop</button>
-                <button id="fullscreenButton">Fullscreen</button>
+    <div id="container">
+        <header>
+            <img src="Foobarspectrumlogo2.png" alt="Foobar Spectrum Logo" id="logo">
+            <nav>
+                <a href="index.html" id="foobar-title">Foobar Oscilloscope</a>
+                <!-- Other links if any -->
+            </nav>
+        </header>
+        <main>
+            <div id="visualizer-container">
+                <canvas id="oscilloscopeCanvas"></canvas>
+                <div id="basicControls" class="card">
+                    <button id="startButton">Start</button>
+                    <button id="stopButton">Stop</button>
+                    <button id="fullscreenButton">Fullscreen</button>
+                </div>
+                <div id="advancedControls" class="card">
+                    <!-- Advanced controls specific to oscilloscope if necessary -->
+                </div>
             </div>
-        </section>
-        <section id="advanced-controls">
-            <!-- Advanced controls similar to the spectrum visualizer page, if necessary -->
-        </section>
-    </main>
-
-    <!-- Footer (as per the spectrum visualizer page) -->
-    <footer>
-        <!-- Placeholder for actual footer content -->
-    </footer>
-
+        </main>
+        <footer>
+            <p>&copy; 2023 Foobar Oscilloscope by <a href="https://asan.digital" target="_blank">Asan Digital</a></p>
+        </footer>
+    </div>
     <script src="oscilloscope.js"></script>
 </body>
 </html>
