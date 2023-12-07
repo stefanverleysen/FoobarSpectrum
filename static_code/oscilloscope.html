@@ -52,8 +52,29 @@
 </head>
 <body>
     <div id="container">
-        <!-- The header, main, and footer will be structured exactly like the visualizer page's index.html -->
-        <!-- Content from index.html is replicated here with changes only to canvas ID and script source -->
+        <header>
+            <img src="Foobarspectrumlogo2.png" alt="Foobar Spectrum Logo" id="logo">
+            <nav>
+                <a href="index.html" id="foobar-title">Foobar Spectrum</a>
+                <!-- Other navigation links, if any -->
+            </nav>
+        </header>
+        <main>
+            <div id="visualizer-container">
+                <canvas id="oscilloscopeCanvas" class="audioVisualizerCanvas"></canvas>
+                <div id="basicControls" class="card">
+                    <button id="startButton">Start</button>
+                    <button id="stopButton">Stop</button>
+                    <button id="fullscreenButton">Fullscreen</button>
+                </div>
+                <div id="advancedControls" class="card">
+                    <!-- Advanced controls specific to oscilloscope if necessary -->
+                </div>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2023 Foobar Spectrum by <a href="https://asan.digital" target="_blank">Asan Digital</a></p>
+        </footer>
     </div>
     <script src="oscilloscope.js"></script>
 </body>
