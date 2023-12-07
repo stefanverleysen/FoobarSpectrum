@@ -207,3 +207,7 @@ footer a:hover {
     background-color: #ccc;
 }
 
+#oscilloscopeCanvas {
+    /* Custom styles for the oscilloscope canvas if needed */
+    background-color: #000; /* Example background color */
+}
