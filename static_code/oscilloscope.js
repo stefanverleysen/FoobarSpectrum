@@ -66,23 +66,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function startOscilloscope() {
-        if (isDrawing) return;
-
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        analyser = audioContext.createAnalyser();
-        analyser.fftSize = 2048;
-        analyser.smoothingTimeConstant = 0.85;
-        dataArray = new Uint8Array(analyser.fftSize);
-
-        navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-            const source = audioContext.createMediaStreamSource(stream);
-            source.connect(analyser);
-            isDrawing = true;
-            drawVisual = requestAnimationFrame(drawOscilloscope);
-        }).catch(err => {
-            console.error('Error accessing microphone:', err);
-        });
+    if (isDrawing) {
+        stopOscilloscope(); // Stop the oscilloscope if it's already running
     }
+
+    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioContext.createAnalyser();
+    analyser.fftSize = 2048;
+    analyser.smoothingTimeConstant = 0.85;
+    dataArray = new Uint8Array(analyser.fftSize);
+
+    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+        const source = audioContext.createMediaStreamSource(stream);
+        source.connect(analyser);
+        isDrawing = true;
+        drawVisual = requestAnimationFrame(drawOscilloscope);
+    }).catch(err => {
+        console.error('Error accessing microphone:', err);
+    });
+}
+
 
     function stopOscilloscope() {
         if (!isDrawing) return;
