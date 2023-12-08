@@ -1,55 +1,65 @@
-document.addEventListener('DOMContentLoaded', (event) => {
+document.addEventListener('DOMContentLoaded', () => {
     let audioContext;
     let analyser;
     let dataArray;
     let isDrawing = false;
     let drawVisual;
 
-
-    // New variables for waveform type, line thickness, and scale factor
-    let selectedWaveform = 'sine'; // Default to sine wave
-    let lineThickness = 2; // Default line thickness
-    let scaleFactor = 1; // Default scale factor
-
-    
     const oscilloscopeCanvas = document.getElementById('oscilloscopeCanvas');
     const oscilloscopeCtx = oscilloscopeCanvas.getContext('2d');
 
     oscilloscopeCanvas.width = oscilloscopeCanvas.offsetWidth;
     oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight;
 
-function drawOscilloscope() {
-    if (!isDrawing) return;
-    drawVisual = requestAnimationFrame(drawOscilloscope);
+    // New variables for waveform type, line thickness, and scale factor
+    let selectedWaveform = 'sine'; // Default to sine wave
+    let lineThickness = 2; // Default line thickness
+    let scaleFactor = 1; // Default scale factor
 
-    analyser.getByteTimeDomainData(dataArray);
-    oscilloscopeCtx.fillStyle = 'rgb(200, 200, 200)';
-    oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
+    // New HTML controls for waveform type, line thickness, and scale factor
+    const waveformTypeDropdown = document.getElementById('waveformType');
+    const lineThicknessSlider = document.getElementById('lineThickness');
+    const scaleFactorSlider = document.getElementById('scaleFactor');
 
-    oscilloscopeCtx.lineWidth = lineThickness; // Use the selected line thickness
-    oscilloscopeCtx.strokeStyle = 'rgb(0, 0, 0)';
-    oscilloscopeCtx.beginPath();
+    waveformTypeDropdown.addEventListener('change', (event) => {
+        selectedWaveform = event.target.value;
+    });
 
-    var sliceWidth = (oscilloscopeCanvas.width * scaleFactor) / analyser.fftSize; // Use the selected scale factor
-    var x = 0;
+    lineThicknessSlider.addEventListener('input', (event) => {
+        lineThickness = event.target.value;
+    });
 
-    for (var i = 0; i < analyser.fftSize; i++) {
-        var v = dataArray[i] / 128.0;
-        var y = v * (oscilloscopeCanvas.height / 2) * scaleFactor; // Adjust for scale factor
+    scaleFactorSlider.addEventListener('input', (event) => {
+        scaleFactor = event.target.value;
+    });
 
-        if (i === 0) {
-            oscilloscopeCtx.moveTo(x, y);
-        } else {
-            oscilloscopeCtx.lineTo(x, y);
+    function drawOscilloscope() {
+        if (!isDrawing) return;
+        drawVisual = requestAnimationFrame(drawOscilloscope);
+
+        analyser.getByteTimeDomainData(dataArray);
+        oscilloscopeCtx.fillStyle = 'rgb(200, 200, 200)';
+        oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
+
+        oscilloscopeCtx.lineWidth = lineThickness; // Use the selected line thickness
+        oscilloscopeCtx.strokeStyle = 'rgb(0, 0, 0)';
+        oscilloscopeCtx.beginPath();
+
+        var sliceWidth = (oscilloscopeCanvas.width * scaleFactor) / analyser.fftSize; // Use the selected scale factor
+        var x = 0;
+
+        for (var i = 0; i < analyser.fftSize; i++) {
+            var v = dataArray[i] / 128.0;
+            var y = v * (oscilloscopeCanvas.height / 2) * scaleFactor; // Adjust for scale factor
+
+            if (i === 0) {
+                oscilloscopeCtx.moveTo(x, y);
+            } else {
+                oscilloscopeCtx.lineTo(x, y);
+            }
+
+            x += sliceWidth;
         }
-
-        x += sliceWidth;
-    }
-
-    oscilloscopeCtx.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height / 2);
-    oscilloscopeCtx.stroke();
-}
-
 
         oscilloscopeCtx.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height / 2);
         oscilloscopeCtx.stroke();
@@ -96,24 +106,6 @@ function drawOscilloscope() {
     const stopButton = document.getElementById('stopButton');
     const fullscreenButton = document.getElementById('fullscreenButton');
 
-    // Add event listeners for the waveform type, line thickness, and scale factor controls
-const waveformTypeDropdown = document.getElementById('waveformType');
-const lineThicknessSlider = document.getElementById('lineThickness');
-const scaleFactorSlider = document.getElementById('scaleFactor');
-
-    waveformTypeDropdown.addEventListener('change', (event) => {
-    selectedWaveform = event.target.value;
-    });
-
-    lineThicknessSlider.addEventListener('input', (event) => {
-        lineThickness = event.target.value;
-    });
-
-    scaleFactorSlider.addEventListener('input', (event) => {
-       scaleFactor = event.target.value;
-    });
-
-    
     startButton.addEventListener('click', startOscilloscope);
     stopButton.addEventListener('click', stopOscilloscope);
     fullscreenButton.addEventListener('click', toggleFullscreen);
