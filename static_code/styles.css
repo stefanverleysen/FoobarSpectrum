@@ -20,14 +20,6 @@ body, html {
     flex-direction: column;
     background-color: #1a1a1a; /* Set background color */
 }
-#oscilloscopeCanvas {
-    background-color: black; /* Corrected background color without double quotes */
-    width: 100%;
-    height: 100%;
-}
-#foobar-title {
-    font-weight: bold;
-}
 
 /* Header styling */
 header {
@@ -48,9 +40,9 @@ nav {
 
 /* Header link color change */
 nav a {
-  color: #fff;
-  text-decoration: none;
-  padding: 0 1em;
+    color: #fff;
+    text-decoration: none;
+    padding: 0 1em;
 }
 
 nav a:hover, nav a.active {
@@ -63,25 +55,26 @@ main {
     padding: 1em;
 }
 
-/* Visualizer container */ 
+/* Visualizer container */
 #visualizer-container {
     position: relative;
 }
 
 /* Default background for the visualizer canvas */
-#audioVisualizerCanvas {
+#oscilloscopeCanvas {
     width: 100%;
     height: 65vh;
-    background-color: #000;  
+    background-color: #000;
 }
 
 /* Controls styling */
-#basicControls, #advancedControls {
+#basicControls,
+#advancedControls {
     background-color: #333;
-    border-radius: 10px;    
+    border-radius: 10px;
     padding: 20px;
     margin-top: 20px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);  
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 button {
@@ -89,14 +82,14 @@ button {
     background-color: #333;
     color: #fff;
     border: none;
-    cursor: pointer;   
+    cursor: pointer;
 }
 
 button:hover {
     background-color: #444;
-}  
+}
 
-/* Slider labels */  
+/* Slider labels */
 #advancedControls label {
     display: flex;
     align-items: center;
@@ -106,7 +99,7 @@ button:hover {
 #advancedControls span {
     margin-left: 8px;
     font-weight: bold;
-}   
+}
 
 /* Footer styling */
 footer {
@@ -140,9 +133,7 @@ footer a:hover {
         width: 100%;
     }
 
-    #audioVisualizerCanvas {
+    #oscilloscopeCanvas {
         height: 60vh; /* Adjusted height for smaller screens */
     }
 }
-    
-
