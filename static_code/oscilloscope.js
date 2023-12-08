@@ -28,39 +28,39 @@ document.addEventListener('DOMContentLoaded', () => {
     elasticitySlider.addEventListener('input', (event) => {
         elasticity = parseFloat(event.target.value);
     });
-    
     function drawOscilloscope() {
-        if (!isDrawing) return;
-        drawVisual = requestAnimationFrame(drawOscilloscope);
-    
-        analyser.getByteTimeDomainData(dataArray);
-        oscilloscopeCtx.fillStyle = 'rgb(200, 200, 200)';
-        oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
-    
-        oscilloscopeCtx.lineWidth = lineThickness; // Use the selected line thickness
-        oscilloscopeCtx.strokeStyle = 'rgb(0, 0, 0)';
-        oscilloscopeCtx.beginPath();
-    
-        var sliceWidth = (oscilloscopeCanvas.width * scaleFactor) / analyser.fftSize; // Use the selected scale factor
-        var x = 0;
-    
-        for (var i = 0; i < analyser.fftSize; i++) {
-            var v = dataArray[i] / 128.0;
-            var y = Math.sin((2 * Math.PI * i / analyser.fftSize) * elasticity) * (oscilloscopeCanvas.height / 2) * v * scaleFactor;
-            
-            // Adjust for speed
-            x += sliceWidth * speed;
-            
-            if (i === 0) {
-                oscilloscopeCtx.moveTo(x, y);
-            } else {
-                oscilloscopeCtx.lineTo(x, y);
-            }
+    if (!isDrawing) return;
+    drawVisual = requestAnimationFrame(drawOscilloscope);
+
+    analyser.getByteTimeDomainData(dataArray);
+    oscilloscopeCtx.fillStyle = 'rgb(200, 200, 200)';
+    oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
+
+    oscilloscopeCtx.lineWidth = lineThickness; // Use the selected line thickness
+    oscilloscopeCtx.strokeStyle = 'rgb(0, 0, 0)';
+    oscilloscopeCtx.beginPath();
+
+    var sliceWidth = (oscilloscopeCanvas.width * scaleFactor) / analyser.fftSize; // Use the selected scale factor
+    var x = 0;
+
+    for (var i = 0; i < analyser.fftSize; i++) {
+        var v = dataArray[i] / 128.0;
+        var y = Math.sin((2 * Math.PI * i / analyser.fftSize) * elasticity) * (oscilloscopeCanvas.height / 2) * v * scaleFactor;
+
+        // Adjust for speed
+        x += sliceWidth * speed;
+
+        if (i === 0) {
+            oscilloscopeCtx.moveTo(x, oscilloscopeCanvas.height / 2);
+        } else {
+            oscilloscopeCtx.lineTo(x, oscilloscopeCanvas.height / 2 - y);
         }
-    
-        oscilloscopeCtx.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height / 2);
-        oscilloscopeCtx.stroke();
     }
+
+    oscilloscopeCtx.stroke();
+}
+
+
     function startOscilloscope() {
         if (isDrawing) {
             stopOscilloscope(); // Stop the oscilloscope if it's already running
