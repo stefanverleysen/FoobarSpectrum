@@ -8,13 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const oscilloscopeCanvas = document.getElementById('oscilloscopeCanvas');
     const oscilloscopeCtx = oscilloscopeCanvas.getContext('2d');
 
-    // Set the canvas background color to black
-    oscilloscopeCtx.fillStyle = 'black';
-    oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
-
-    // Set the line color to gold
-    oscilloscopeCtx.strokeStyle = "gold";
-
 
     oscilloscopeCanvas.width = oscilloscopeCanvas.offsetWidth;
     oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight;
@@ -44,11 +37,11 @@ document.addEventListener('DOMContentLoaded', () => {
         drawVisual = requestAnimationFrame(drawOscilloscope);
 
         analyser.getByteTimeDomainData(dataArray);
-        oscilloscopeCtx.fillStyle = 'rgb(200, 200, 200)';
+        oscilloscopeCtx.fillStyle = 'rgb(0, 0, 0)';
         oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
 
         oscilloscopeCtx.lineWidth = lineThickness;
-        oscilloscopeCtx.strokeStyle = 'rgb(0, 0, 0)';
+        oscilloscopeCtx.strokeStyle = 'rgb(255, 215, 0)';
         oscilloscopeCtx.beginPath();
 
         var sliceWidth = (oscilloscopeCanvas.width * speed) / analyser.fftSize;
