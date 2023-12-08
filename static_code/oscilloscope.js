@@ -14,10 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
     oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight * dpr;
     oscilloscopeCtx.scale(dpr, dpr);
 
-    // Set default values for line thickness, speed, and elasticity
+    // Set default values for line thickness and speed
     let lineThickness = 2;
     let speed = 1;
-    let elasticity = 1; // Default elasticity, adjust as needed
 
     // Sensitivity control
     let sensitivity = 0.5; // Default sensitivity value
@@ -51,8 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
         var x = 0;
 
         for (var i = 0; i < analyser.fftSize; i++) {
-            var v = (dataArray[i] / 128.0) * sensitivity; // Apply sensitivity to wave amplitude
-            var y = v * (oscilloscopeCanvas.height / 2);
+            var v = dataArray[i] / 128.0;
+            // Adjust y position based on sensitivity without moving the center line
+            var y = oscilloscopeCanvas.height / 2 + (v - 1) * (oscilloscopeCanvas.height / 2) * sensitivity;
 
             if (i === 0) {
                 oscilloscopeCtx.moveTo(x, y);
