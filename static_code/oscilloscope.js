@@ -49,38 +49,39 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('fullscreenchange', onFullScreenChange);
 
   function drawOscilloscope() {
-  if (!isDrawing) return;
+    if (!isDrawing) return;
 
-  drawVisual = requestAnimationFrame(drawOscilloscope);
+    drawVisual = requestAnimationFrame(drawOscilloscope);
 
-  analyser.getByteTimeDomainData(dataArray);
+    analyser.getByteTimeDomainData(dataArray);
 
-  oscilloscopeCtx.fillStyle = 'rgb(0, 0, 0)';
-  oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
+    oscilloscopeCtx.fillStyle = 'rgb(0, 0, 0)';
+    oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
 
-  oscilloscopeCtx.lineWidth = lineThickness;
-  oscilloscopeCtx.strokeStyle = getRandomCyberpunkColor();
+    oscilloscopeCtx.lineWidth = lineThickness;
+    oscilloscopeCtx.strokeStyle = getRandomCyberpunkColor();
 
-  oscilloscopeCtx.beginPath();
+    oscilloscopeCtx.beginPath();
 
-  var sliceWidth = oscilloscopeCanvas.width / dataArray.length;
-  var x = 0;
+    var sliceWidth = oscilloscopeCanvas.width / dataArray.length;
+    var x = 0;
 
-  for (var i = 0; i < dataArray.length; i++) {
-    var v = dataArray[i] / 128.0;
-    var y = centerY - (v * oscilloscopeCanvas.height / 2); // Center the waveform vertically
+    for (var i = 0; i < dataArray.length; i++) {
+      var v = dataArray[i] / 128.0;
+      var centerY = oscilloscopeCanvas.height / 2; // Calculate centerY
+      var y = centerY - (v * oscilloscopeCanvas.height / 2);
 
-    if (i === 0) {
-      oscilloscopeCtx.moveTo(x, y);
-    } else {
-      oscilloscopeCtx.lineTo(x, y);
+      if (i === 0) {
+        oscilloscopeCtx.moveTo(x, y);
+      } else {
+        oscilloscopeCtx.lineTo(x, y);
+      }
+
+      x += sliceWidth;
     }
 
-    x += sliceWidth;
+    oscilloscopeCtx.stroke();
   }
-
-  oscilloscopeCtx.stroke();
-}
 
   function startOscilloscope() {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -91,18 +92,9 @@ document.addEventListener('DOMContentLoaded', () => {
     dataArray = new Uint8Array(analyser.fftSize);
     analyser.getByteTimeDomainData(dataArray);
 
-    // Adjust gain to 5
-    const gainNode = audioContext.createGain();
-    gainNode.gain.value = 3;
-
     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
       const source = audioContext.createMediaStreamSource(stream);
-
-      // Connect the source to the gain node
-      source.connect(gainNode);
-
-      // Connect the gain node to the analyser
-      gainNode.connect(analyser);
+      source.connect(analyser);
 
       isDrawing = true;
       drawVisual = requestAnimationFrame(drawOscilloscope);
