@@ -17,14 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set default values for line thickness
     let lineThickness = 1;
 
-    // Sensitivity control with new range
-    let sensitivity = 2.5; // Initial sensitivity corresponding to slider value 5
-    const sensitivitySlider = document.getElementById('sensitivity');
+    // Curve duration control
+    let curveDuration = 200; // Default value in ms
+    const curveDurationSlider = document.getElementById('curveDuration');
 
-    sensitivitySlider.addEventListener('input', (event) => {
-        const sliderValue = parseFloat(event.target.value);
-        // Map the 1-10 range to a 0.5-4 range
-        sensitivity = 0.5 + (sliderValue - 1) * (3.5 / 9);
+    curveDurationSlider.addEventListener('input', (event) => {
+        curveDuration = parseInt(event.target.value, 10);
     });
 
     // Function to generate a random cyberpunk color in hex format
@@ -47,12 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
         oscilloscopeCtx.strokeStyle = getRandomCyberpunkColor();
         oscilloscopeCtx.beginPath();
 
-        var sliceWidth = oscilloscopeCanvas.width / analyser.fftSize;
+        var sliceWidth = (oscilloscopeCanvas.width * curveDuration / 1000) / analyser.fftSize;
         var x = 0;
 
         for (var i = 0; i < analyser.fftSize; i++) {
             var v = dataArray[i] / 128.0 - 1;
-            var y = (oscilloscopeCanvas.height / 2) + v * sensitivity * (oscilloscopeCanvas.height / 2);
+            var y = (oscilloscopeCanvas.height / 2) + v * (oscilloscopeCanvas.height / 2);
 
             if (i === 0) {
                 oscilloscopeCtx.moveTo(x, y);
