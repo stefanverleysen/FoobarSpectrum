@@ -15,15 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     oscilloscopeCtx.scale(dpr, dpr);
 
     // Set default values for line thickness
-    let lineThickness = 1;
-
-    // Curve duration control
-    let curveDurationMs = 200; // Default value in ms
-    const curveDurationSlider = document.getElementById('curveDuration');
-
-    curveDurationSlider.addEventListener('input', (event) => {
-        curveDurationMs = parseInt(event.target.value, 10);
-    });
+    let lineThickness = 2;
 
     // Function to generate a random cyberpunk color in hex format
     function getRandomCyberpunkColor() {
@@ -40,27 +32,17 @@ document.addEventListener('DOMContentLoaded', () => {
         oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
 
         oscilloscopeCtx.lineWidth = lineThickness;
-        oscilloscopeCtx.lineJoin = 'round';
-        oscilloscopeCtx.lineCap = 'round';
         oscilloscopeCtx.strokeStyle = getRandomCyberpunkColor();
         oscilloscopeCtx.beginPath();
 
-        // Calculate the number of samples to display based on the curve duration
-        const sampleRate = audioContext.sampleRate;
-        const samplesToDisplay = curveDurationMs * sampleRate / 1000;
-
-        // Calculate the slice width based on the number of samples to display
-        var sliceWidth = oscilloscopeCanvas.width / samplesToDisplay;
+        var sliceWidth = oscilloscopeCanvas.width / dataArray.length;
         var x = 0;
 
-        // Determine the starting index for the data array based on the curve duration
-        var startIndex = Math.max(0, dataArray.length - samplesToDisplay);
+        for (var i = 0; i < dataArray.length; i++) {
+            var v = dataArray[i] / 128.0;
+            var y = v * oscilloscopeCanvas.height / 2;
 
-        for (var i = startIndex; i < dataArray.length; i++) {
-            var v = dataArray[i] / 128.0 - 1;
-            var y = oscilloscopeCanvas.height / 2 + v * oscilloscopeCanvas.height / 2;
-
-            if (i === startIndex) {
+            if (i === 0) {
                 oscilloscopeCtx.moveTo(x, y);
             } else {
                 oscilloscopeCtx.lineTo(x, y);
@@ -79,8 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
         analyser = audioContext.createAnalyser();
         analyser.fftSize = 2048;
-        analyser.smoothingTimeConstant = 0.85;
         dataArray = new Uint8Array(analyser.fftSize);
+        analyser.getByteTimeDomainData(dataArray);
 
         navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
             const source = audioContext.createMediaStreamSource(stream);
@@ -103,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function toggleFullscreen() {
         if (!document.fullscreenElement) {
             oscilloscopeCanvas.requestFullscreen().catch(err => {
-                alert('Error attempting to enable fullscreen: ' + err.message);
+                alert('Error attempting to enable fullscreen mode: ' + err.message);
             });
         } else {
             document.exitFullscreen();
