@@ -13,7 +13,13 @@ let analyser;
 let microphone;
 let animationId;
 let barCount = 100;
-let backgroundColor = '#000'; // Header color
+let backgroundColor = '#000'; // Background color
+
+// Function to generate a random cyberpunk color in hex format
+function getRandomCyberpunkColor() {
+    const cyberpunkColors = ["#FF00FF", "#00FFFF", "#00FF00", "#FF0000", "#FFFF00"];
+    return cyberpunkColors[Math.floor(Math.random() * cyberpunkColors.length)];
+}
 
 // Calculate the width of each bar based on the screen width and number of bars
 function calculateBarWidth() {
@@ -32,12 +38,6 @@ function setupCanvasResolution() {
     canvasCtx.fillRect(0, 0, canvas.width, canvas.height); // Fill canvas with background color
 }
 
-// Function to generate a random cyberpunk color in hex format
-function getRandomCyberpunkColor() {
-    const cyberpunkColors = ["#FF00FF", "#00FFFF", "#00FF00", "#FF0000", "#FFFF00"];
-    return cyberpunkColors[Math.floor(Math.random() * cyberpunkColors.length)];
-}
-
 // Function to set initial bar colors to a random cyberpunk color
 function setInitialBarColors() {
     const randomColor = getRandomCyberpunkColor();
@@ -50,6 +50,10 @@ function setInitialBarColors() {
         x += barWidth;
     }
 }
+
+// Rest of your code remains the same...
+
+
 
 // Function to start visualization (you can add your visualization logic here)
 function startVisualization() {
