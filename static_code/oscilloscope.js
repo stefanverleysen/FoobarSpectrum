@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const oscilloscopeCanvas = document.getElementById('oscilloscopeCanvas');
     const oscilloscopeCtx = oscilloscopeCanvas.getContext('2d');
 
-
     oscilloscopeCanvas.width = oscilloscopeCanvas.offsetWidth;
     oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight;
 
@@ -31,42 +30,44 @@ document.addEventListener('DOMContentLoaded', () => {
     elasticitySlider.addEventListener('input', (event) => {
         elasticity = event.target.value;
     });
+
     // Function to generate a random cyberpunk color in hex format
     function getRandomCyberpunkColor() {
-    const cyberpunkColors = ["#FF00FF", "#00FFFF", "#00FF00", "#FF0000", "#FFFF00"];
-    return cyberpunkColors[Math.floor(Math.random() * cyberpunkColors.length)];
-    function drawOscilloscope() {
-    if (!isDrawing) return;
-    drawVisual = requestAnimationFrame(drawOscilloscope);
-
-    analyser.getByteTimeDomainData(dataArray);
-    oscilloscopeCtx.fillStyle = 'rgb(0, 0, 0)';
-    oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
-
-    oscilloscopeCtx.lineWidth = lineThickness;
-    oscilloscopeCtx.strokeStyle = getRandomCyberpunkColor(); // Use the random color generator for strokeStyle
-    oscilloscopeCtx.beginPath();
-
-    var sliceWidth = (oscilloscopeCanvas.width * speed) / analyser.fftSize;
-    var x = 0;
-
-    for (var i = 0; i < analyser.fftSize; i++) {
-        var v = dataArray[i] / 128.0;
-        var y = (v * (oscilloscopeCanvas.height / 2) * elasticity);
-
-        if (i === 0) {
-            oscilloscopeCtx.moveTo(x, y);
-        } else {
-            oscilloscopeCtx.lineTo(x, y);
-        }
-
-        x += sliceWidth;
+        const cyberpunkColors = ["#FF00FF", "#00FFFF", "#00FF00", "#FF0000", "#FFFF00"];
+        return cyberpunkColors[Math.floor(Math.random() * cyberpunkColors.length)];
     }
 
-    oscilloscopeCtx.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height / 2);
-    oscilloscopeCtx.stroke();
-}
+    function drawOscilloscope() {
+        if (!isDrawing) return;
+        drawVisual = requestAnimationFrame(drawOscilloscope);
 
+        analyser.getByteTimeDomainData(dataArray);
+        oscilloscopeCtx.fillStyle = 'rgb(0, 0, 0)';
+        oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
+
+        oscilloscopeCtx.lineWidth = lineThickness;
+        oscilloscopeCtx.strokeStyle = getRandomCyberpunkColor(); // Use the random color generator for strokeStyle
+        oscilloscopeCtx.beginPath();
+
+        var sliceWidth = (oscilloscopeCanvas.width * speed) / analyser.fftSize;
+        var x = 0;
+
+        for (var i = 0; i < analyser.fftSize; i++) {
+            var v = dataArray[i] / 128.0;
+            var y = (v * (oscilloscopeCanvas.height / 2) * elasticity);
+
+            if (i === 0) {
+                oscilloscopeCtx.moveTo(x, y);
+            } else {
+                oscilloscopeCtx.lineTo(x, y);
+            }
+
+            x += sliceWidth;
+        }
+
+        oscilloscopeCtx.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height / 2);
+        oscilloscopeCtx.stroke();
+    }
 
     function startOscilloscope() {
         if (isDrawing) return;
