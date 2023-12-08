@@ -11,32 +11,24 @@ document.addEventListener('DOMContentLoaded', () => {
     oscilloscopeCanvas.width = oscilloscopeCanvas.offsetWidth;
     oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight;
 
-    // New variables for line thickness, speed, elasticity, and scaleFactor
-    let lineThickness = 2; // Default line thickness
-    let speed = 1; // Default speed
-    let elasticity = 1; // Default elasticity
-    let scaleFactor = 1; // Default scale factor
-
-    // New HTML controls for line thickness, speed, elasticity, and scaleFactor
     const lineThicknessSlider = document.getElementById('lineThickness');
     const speedSlider = document.getElementById('speed');
     const elasticitySlider = document.getElementById('elasticity');
-    const scaleFactorSlider = document.getElementById('scaleFactor');
+
+    let lineThickness = 2;
+    let speed = 1;
+    let elasticity = 1;
 
     lineThicknessSlider.addEventListener('input', (event) => {
-        lineThickness = parseFloat(event.target.value);
+        lineThickness = event.target.value;
     });
 
     speedSlider.addEventListener('input', (event) => {
-        speed = parseFloat(event.target.value);
+        speed = event.target.value;
     });
 
     elasticitySlider.addEventListener('input', (event) => {
-        elasticity = parseFloat(event.target.value);
-    });
-
-    scaleFactorSlider.addEventListener('input', (event) => {
-        scaleFactor = parseFloat(event.target.value);
+        elasticity = event.target.value;
     });
 
     function drawOscilloscope() {
@@ -47,34 +39,32 @@ document.addEventListener('DOMContentLoaded', () => {
         oscilloscopeCtx.fillStyle = 'rgb(200, 200, 200)';
         oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
 
-        oscilloscopeCtx.lineWidth = lineThickness; // Use the selected line thickness
+        oscilloscopeCtx.lineWidth = lineThickness;
         oscilloscopeCtx.strokeStyle = 'rgb(0, 0, 0)';
         oscilloscopeCtx.beginPath();
 
-        var sliceWidth = (oscilloscopeCanvas.width * scaleFactor) / analyser.fftSize; // Use the selected scale factor
+        var sliceWidth = (oscilloscopeCanvas.width * speed) / analyser.fftSize;
         var x = 0;
 
         for (var i = 0; i < analyser.fftSize; i++) {
             var v = dataArray[i] / 128.0;
-            var y = Math.sin((2 * Math.PI * i / analyser.fftSize) * elasticity) * (oscilloscopeCanvas.height / 2) * v * scaleFactor;
-
-            // Adjust for speed
-            x += sliceWidth * speed;
+            var y = (v * (oscilloscopeCanvas.height / 2) * elasticity);
 
             if (i === 0) {
-                oscilloscopeCtx.moveTo(x, oscilloscopeCanvas.height / 2);
+                oscilloscopeCtx.moveTo(x, y);
             } else {
-                oscilloscopeCtx.lineTo(x, oscilloscopeCanvas.height / 2 - y);
+                oscilloscopeCtx.lineTo(x, y);
             }
+
+            x += sliceWidth;
         }
 
+        oscilloscopeCtx.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height / 2);
         oscilloscopeCtx.stroke();
     }
 
     function startOscilloscope() {
-        if (isDrawing) {
-            stopOscilloscope(); // Stop the oscilloscope if it's already running
-        }
+        if (isDrawing) return;
 
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
         analyser = audioContext.createAnalyser();
