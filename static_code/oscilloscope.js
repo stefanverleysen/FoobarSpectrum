@@ -61,44 +61,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.addEventListener('fullscreenchange', onFullScreenChange);
 
-function drawOscilloscope() {
-  if (!isDrawing) return;
+  function drawOscilloscope() {
+    
+    if (!isDrawing) return;
 
-  drawVisual = requestAnimationFrame(drawOscilloscope);
+    drawVisual = requestAnimationFrame(drawOscilloscope);
 
-  analyser.getByteTimeDomainData(dataArray);
+    analyser.getByteTimeDomainData(dataArray);
 
-  // Increase sensitivity by multiplying each value
-  const sensitivity = 2; // Adjust this value to control sensitivity
-  dataArray = dataArray.map(value => value * sensitivity);
+    oscilloscopeCtx.fillStyle = 'rgb(0, 0, 0)';
+    oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
 
-  oscilloscopeCtx.fillStyle = 'rgb(0, 0, 0)';
-  oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
+    oscilloscopeCtx.lineWidth = lineThickness;
+    oscilloscopeCtx.strokeStyle = getRandomCyberpunkColor();
 
-  oscilloscopeCtx.lineWidth = lineThickness;
-  oscilloscopeCtx.strokeStyle = getRandomCyberpunkColor();
+    oscilloscopeCtx.beginPath();
 
-  oscilloscopeCtx.beginPath();
+    var sliceWidth = oscilloscopeCanvas.width / dataArray.length;
+    var x = 0;
 
-  var sliceWidth = oscilloscopeCanvas.width / dataArray.length;
-  var x = 0;
+    for (var i = 0; i < dataArray.length; i++) {
 
-  for (var i = 0; i < dataArray.length; i++) {
-    var v = dataArray[i] / 128.0;
-    var y = (0.5 - v) * oscilloscopeCanvas.height / 2 + oscilloscopeCanvas.height / 2; // Center the waveform
+      var v = dataArray[i] / 128.0;
+      var y = v * oscilloscopeCanvas.height / 2;
 
-    if (i === 0) {
-      oscilloscopeCtx.moveTo(x, y);
-    } else {
-      oscilloscopeCtx.lineTo(x, y);  
+      if (i === 0) {
+        oscilloscopeCtx.moveTo(x, y);
+      } else {
+        oscilloscopeCtx.lineTo(x, y);  
+      }
+
+      x += sliceWidth;
     }
 
-    x += sliceWidth;
+    oscilloscopeCtx.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height/2);
+    oscilloscopeCtx.stroke();
+  
   }
-
-  oscilloscopeCtx.stroke();
-}
-
 
   function startOscilloscope() {
    
