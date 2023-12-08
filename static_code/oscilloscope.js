@@ -18,33 +18,38 @@ document.addEventListener('DOMContentLoaded', (event) => {
     oscilloscopeCanvas.width = oscilloscopeCanvas.offsetWidth;
     oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight;
 
-    function drawOscilloscope() {
-        if (!isDrawing) return;
-        drawVisual = requestAnimationFrame(drawOscilloscope);
+function drawOscilloscope() {
+    if (!isDrawing) return;
+    drawVisual = requestAnimationFrame(drawOscilloscope);
 
-        analyser.getByteTimeDomainData(dataArray);
-        oscilloscopeCtx.fillStyle = 'rgb(200, 200, 200)';
-        oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
+    analyser.getByteTimeDomainData(dataArray);
+    oscilloscopeCtx.fillStyle = 'rgb(200, 200, 200)';
+    oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
 
-        oscilloscopeCtx.lineWidth = 2;
-        oscilloscopeCtx.strokeStyle = 'rgb(0, 0, 0)';
-        oscilloscopeCtx.beginPath();
+    oscilloscopeCtx.lineWidth = lineThickness; // Use the selected line thickness
+    oscilloscopeCtx.strokeStyle = 'rgb(0, 0, 0)';
+    oscilloscopeCtx.beginPath();
 
-        var sliceWidth = oscilloscopeCanvas.width * 1.0 / analyser.fftSize;
-        var x = 0;
+    var sliceWidth = (oscilloscopeCanvas.width * scaleFactor) / analyser.fftSize; // Use the selected scale factor
+    var x = 0;
 
-        for (var i = 0; i < analyser.fftSize; i++) {
-            var v = dataArray[i] / 128.0;
-            var y = v * oscilloscopeCanvas.height / 2;
+    for (var i = 0; i < analyser.fftSize; i++) {
+        var v = dataArray[i] / 128.0;
+        var y = v * (oscilloscopeCanvas.height / 2) * scaleFactor; // Adjust for scale factor
 
-            if (i === 0) {
-                oscilloscopeCtx.moveTo(x, y);
-            } else {
-                oscilloscopeCtx.lineTo(x, y);
-            }
-
-            x += sliceWidth;
+        if (i === 0) {
+            oscilloscopeCtx.moveTo(x, y);
+        } else {
+            oscilloscopeCtx.lineTo(x, y);
         }
+
+        x += sliceWidth;
+    }
+
+    oscilloscopeCtx.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height / 2);
+    oscilloscopeCtx.stroke();
+}
+
 
         oscilloscopeCtx.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height / 2);
         oscilloscopeCtx.stroke();
