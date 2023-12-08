@@ -11,23 +11,17 @@ document.addEventListener('DOMContentLoaded', () => {
     oscilloscopeCanvas.width = oscilloscopeCanvas.offsetWidth;
     oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight;
 
-    // New variables for waveform type, line thickness, speed, elasticity, and scaleFactor
-    let selectedWaveform = 'sine'; // Default to sine wave
+    // New variables for line thickness, speed, elasticity, and scaleFactor
     let lineThickness = 2; // Default line thickness
     let speed = 1; // Default speed
     let elasticity = 1; // Default elasticity
     let scaleFactor = 1; // Default scale factor
 
-    // New HTML controls for waveform type, line thickness, speed, elasticity, and scaleFactor
-    const waveformTypeDropdown = document.getElementById('waveformType');
+    // New HTML controls for line thickness, speed, elasticity, and scaleFactor
     const lineThicknessSlider = document.getElementById('lineThickness');
     const speedSlider = document.getElementById('speed');
     const elasticitySlider = document.getElementById('elasticity');
     const scaleFactorSlider = document.getElementById('scaleFactor');
-
-    waveformTypeDropdown.addEventListener('change', (event) => {
-        selectedWaveform = event.target.value;
-    });
 
     lineThicknessSlider.addEventListener('input', (event) => {
         lineThickness = parseFloat(event.target.value);
