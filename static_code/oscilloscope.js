@@ -1,19 +1,22 @@
 const canvas = document.getElementById('oscilloscope');
-const ctx = canvas.getContext('2d');
+const ctx = canvas.getContext('2d');  
 
+let audioCtx;
 let isDrawing = false;
-let requestId; 
+let requestId;
 
 let analyser;
 let dataArray;
 
 const startButton = document.getElementById('start');
-const stopButton = document.getElementById('stop');
+startButton.addEventListener('click', start);
 
-startButton.addEventListener('click', start); 
+const stopButton = document.getElementById('stop');
 stopButton.addEventListener('click', stop);
 
-const start = async () => {
+async function start() {
+
+  audioCtx = new AudioContext();
 
   try {
 
@@ -21,14 +24,11 @@ const start = async () => {
       audio: true
     });
 
-    const audioCtx = new AudioContext();
-
     analyser = audioCtx.createAnalyser();
     analyser.fftSize = 2048;
     dataArray = new Uint8Array(analyser.fftSize);
 
     const source = audioCtx.createMediaStreamSource(stream);
-
     source.connect(analyser);
 
     isDrawing = true;
@@ -38,7 +38,7 @@ const start = async () => {
     console.log('Could not get audio stream', err);
   }
 
-};
+}
 
 function draw() {
 
@@ -47,9 +47,9 @@ function draw() {
     
   requestId = requestAnimationFrame(draw);
 
-  analyser.getByteTimeDomainData(dataArray); 
+  analyser.getByteTimeDomainData(dataArray);
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);  
 
   ctx.lineWidth = 2;
   ctx.strokeStyle = 'rgb(0, 0, 0)';
@@ -67,24 +67,24 @@ function draw() {
     if(i === 0)
       ctx.moveTo(x, y);
     else  
-      ctx.lineTo(x, y);   
+      ctx.lineTo(x, y);    
 
     x += sliceWidth;
   }
 
-  ctx.lineTo(canvas.width, canvas.height/2);
+  ctx.lineTo(canvas.width, canvas.height/2);  
 
-  ctx.stroke();  
+  ctx.stroke();
 }
 
-function stop() { 
-  
+function stop() {
+
   if(!isDrawing)
     return;
 
   isDrawing = false;
-  
-  cancelAnimationFrame(requestId);
+  cancelAnimationFrame(requestId); 
   
   analyser.disconnect();
+  audioCtx.close();
 }
