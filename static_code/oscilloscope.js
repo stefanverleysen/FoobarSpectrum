@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     oscilloscopeCtx.stroke();
 }
 
+
     function startOscilloscope() {
         if (isDrawing) return;
 
