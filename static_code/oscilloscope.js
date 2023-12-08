@@ -1,35 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   let audioContext;
-
   let analyser;
-
   let dataArray;
-
   let isDrawing = false;
-   
   let drawVisual;
-
   const oscilloscopeCanvas = document.getElementById('oscilloscopeCanvas');
-  
   const oscilloscopeCtx = oscilloscopeCanvas.getContext('2d');
-
   let dpr = window.devicePixelRatio || 1;
 
   oscilloscopeCanvas.width = oscilloscopeCanvas.offsetWidth * dpr;
-  
   oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight * dpr;
-
   oscilloscopeCtx.scale(dpr, dpr);
 
   let lineThickness = 2;
 
   function getRandomCyberpunkColor() {
-
     const colors = ["#FF00FF", "#00FFFF", "#00FF00", "#FF0000", "#FFFF00"];
-
     return colors[Math.floor(Math.random() * colors.length)];
-
   }
 
   function resizeCanvas() {
@@ -62,7 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('fullscreenchange', onFullScreenChange);
 
   function drawOscilloscope() {
-    
     if (!isDrawing) return;
 
     drawVisual = requestAnimationFrame(drawOscilloscope);
@@ -81,9 +68,8 @@ document.addEventListener('DOMContentLoaded', () => {
     var x = 0;
 
     for (var i = 0; i < dataArray.length; i++) {
-
       var v = dataArray[i] / 128.0;
-      var y = v * oscilloscopeCanvas.height / 2;
+      var y = (1 - v) * oscilloscopeCanvas.height; // Use the full canvas height
 
       if (i === 0) {
         oscilloscopeCtx.moveTo(x, y);
@@ -94,13 +80,10 @@ document.addEventListener('DOMContentLoaded', () => {
       x += sliceWidth;
     }
 
-    oscilloscopeCtx.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height/2);
     oscilloscopeCtx.stroke();
-  
   }
 
   function startOscilloscope() {
-   
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
     analyser = audioContext.createAnalyser();
@@ -110,21 +93,17 @@ document.addEventListener('DOMContentLoaded', () => {
     analyser.getByteTimeDomainData(dataArray);
 
     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-
       const source = audioContext.createMediaStreamSource(stream);
       source.connect(analyser);
 
       isDrawing = true; 
       drawVisual = requestAnimationFrame(drawOscilloscope);
-
     }).catch(err => {
       console.error('Error accessing microphone:', err);
     });
-  
   }
 
   function stopOscilloscope() {
-
     if (!isDrawing) return;
 
     isDrawing = false;
@@ -132,7 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     analyser.disconnect();
     audioContext.close();
-  
   }
 
   function toggleFullscreen() {
