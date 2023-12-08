@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
     analyser = audioContext.createAnalyser();
-    analyser.fftSize = 2048;
+    analyser.fftSize = 8192;
 
     dataArray = new Uint8Array(analyser.fftSize);
     analyser.getByteTimeDomainData(dataArray);
