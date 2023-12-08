@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (var i = 0; i < dataArray.length; i++) {
       var v = dataArray[i] / 128.0;
-      var y = (0.5 - v) * oscilloscopeCanvas.height + oscilloscopeCanvas.height / 2; // Center the waveform
+      var y = (0.5 - v) * oscilloscopeCanvas.height / 2 + oscilloscopeCanvas.height / 2; // Center the waveform vertically
 
       if (i === 0) {
         oscilloscopeCtx.moveTo(x, y);
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Adjust gain to 5
     const gainNode = audioContext.createGain();
-    gainNode.gain.value = 5;
+    gainNode.gain.value = 3;
 
     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
       const source = audioContext.createMediaStreamSource(stream);
