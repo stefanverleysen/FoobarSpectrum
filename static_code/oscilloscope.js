@@ -65,10 +65,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     var sliceWidth = oscilloscopeCanvas.width / dataArray.length;
     var x = 0;
+    var centerY = oscilloscopeCanvas.height / 2; // Calculate centerY
 
     for (var i = 0; i < dataArray.length; i++) {
       var v = dataArray[i] / 128.0;
-      var centerY = oscilloscopeCanvas.height / 2; // Calculate centerY
       var y = centerY - (v * oscilloscopeCanvas.height / 2);
 
       if (i === 0) {
