@@ -72,7 +72,7 @@ main {
 #audioVisualizerCanvas {
     width: 100%;
     height: 65vh;
-    background-color: #FFFFFF;  
+    background-color: #000;  
 }
 
 /* Controls styling */
