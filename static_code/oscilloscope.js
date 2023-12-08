@@ -18,12 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let lineThickness = 1;
     let speed = 1;
 
-    // Sensitivity control
-    let sensitivity = 0.5; // Default sensitivity value
+    // Sensitivity control with new range
+    let sensitivity = 2.5; // Initial sensitivity corresponding to slider value 5
     const sensitivitySlider = document.getElementById('sensitivity');
 
     sensitivitySlider.addEventListener('input', (event) => {
-        sensitivity = event.target.value;
+        const sliderValue = parseFloat(event.target.value);
+        // Map the 1-10 range to a 0.5-4 range
+        sensitivity = 0.5 + (sliderValue - 1) * (3.5 / 9);
     });
 
     // Function to generate a random cyberpunk color in hex format
