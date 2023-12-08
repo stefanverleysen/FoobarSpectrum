@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (var i = 0; i < dataArray.length; i++) {
       var v = dataArray[i] / 128.0;
-      var y = (1 - v) * oscilloscopeCanvas.height / 2; // Modify this line
+      var y = (0.5 - v) * oscilloscopeCanvas.height / 2 + oscilloscopeCanvas.height / 2; // Modify this line
 
       if (i === 0) {
         oscilloscopeCtx.moveTo(x, y);
