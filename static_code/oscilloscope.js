@@ -14,9 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
     oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight * dpr;
     oscilloscopeCtx.scale(dpr, dpr);
 
-    // Set default values for line thickness and speed
+    // Set default values for line thickness
     let lineThickness = 1;
-    let speed = 1;
 
     // Sensitivity control with new range
     let sensitivity = 2.5; // Initial sensitivity corresponding to slider value 5
@@ -48,13 +47,12 @@ document.addEventListener('DOMContentLoaded', () => {
         oscilloscopeCtx.strokeStyle = getRandomCyberpunkColor();
         oscilloscopeCtx.beginPath();
 
-        var sliceWidth = (oscilloscopeCanvas.width * speed) / analyser.fftSize;
+        var sliceWidth = oscilloscopeCanvas.width / analyser.fftSize;
         var x = 0;
 
         for (var i = 0; i < analyser.fftSize; i++) {
-            var v = dataArray[i] / 128.0;
-            // Adjust y position based on sensitivity without moving the center line
-            var y = oscilloscopeCanvas.height / 2 + (v - 1) * (oscilloscopeCanvas.height / 2) * sensitivity;
+            var v = dataArray[i] / 128.0 - 1;
+            var y = (oscilloscopeCanvas.height / 2) + v * sensitivity * (oscilloscopeCanvas.height / 2);
 
             if (i === 0) {
                 oscilloscopeCtx.moveTo(x, y);
