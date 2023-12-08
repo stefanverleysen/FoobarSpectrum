@@ -2,70 +2,65 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Foobar Oscilloscope</title>
-  <link rel="stylesheet" href="styles.css">
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-01JKEKRL8S"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foobar Oscilloscope</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-01JKEKRL8S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-    function gtag() {
-      dataLayer.push(arguments);
-    }
+        function gtag() {
+            dataLayer.push(arguments);
+        }
 
-    gtag('js', new Date());
-    gtag('config', 'G-01JKEKRL8S');
-  </script>
+        gtag('js', new Date());
+        gtag('config', 'G-01JKEKRL8S');
+    </script>
 </head>
 
 <body>
-  <div id="container">
-    <header>
-      <img src="Foobarspectrumlogo2.png" alt="Foobar Spectrum Logo" id="logo">
-      <nav>
-        <a href="index.html" id="foobar-title">Foobar Spectrum</a>
-      </nav>
-    </header>
-    <main>
-      <div id="visualizer-container">
-        <canvas id="oscilloscopeCanvas" style="width: 100%; height: 65vh;"></canvas>
-        <div id="controls" class="card">
-          <!-- Start, Stop, and Fullscreen buttons -->
-          <div id="basicControls">
-            <button id="startButton">Start</button>
-            <button id="stopButton">Stop</button>
-            <button id="fullscreenButton">Fullscreen</button>
-          </div>
-          <!-- Line Thickness Slider -->
-          <div>
-            <label for="lineThickness">Line Thickness:</label>
-            <input type="range" id="lineThickness" min="1" max="10" value="2">
-          </div>
-          <!-- Scale Factor Slider -->
-          <div>
-            <label for="scaleFactor">Scale Factor:</label>
-            <input type="range" id="scaleFactor" min="0.5" max="5" step="0.1" value="1">
-          </div>
-          <div>
-  <label for="waveformType">Waveform Type:</label>
-  <select id="waveformType">
-    <option value="sine">Sine Wave</option>
-    <option value="square">Square Wave</option>
-    <option value="sawtooth">Sawtooth Wave</option>
-    <option value="triangle">Triangle Wave</option>
-    <!-- Add more waveform types if needed -->
-  </select>
-</div>
-        </div>
-      </div>
-    </main>
-    <footer>
-      <p>&copy; 2023 Foobar Spectrum by <a href="https://asan.digital" target="_blank">Asan Digital</a></p>
-    </footer>
-  </div>
-  <script src="oscilloscope.js"></script>
+    <div id="container">
+        <header>
+            <img src="Foobarspectrumlogo2.png" alt="Foobar Spectrum Logo" id="logo">
+            <nav>
+                <a href="index.html" id="foobar-title">Foobar Spectrum</a>
+            </nav>
+        </header>
+        <main>
+            <div id="visualizer-container">
+                <canvas id="oscilloscopeCanvas" style="width: 100%; height: 65vh;"></canvas>
+                <div id="controls" class="card">
+                    <!-- Start, Stop, and Fullscreen buttons -->
+                    <div id="basicControls">
+                        <button id="startButton">Start</button>
+                        <button id="stopButton">Stop</button>
+                        <button id="fullscreenButton">Fullscreen</button>
+                    </div>
+                    <!-- Line Thickness Slider -->
+                    <div>
+                        <label for="lineThickness">Line Thickness:</label>
+                        <input type="range" id="lineThickness" min="1" max="10" value="2">
+                    </div>
+                    <!-- Speed Slider -->
+                    <div>
+                        <label for="speed">Speed:</label>
+                        <input type="range" id="speed" min="0.1" max="5" step="0.1" value="1">
+                    </div>
+                    <!-- Elasticity Slider -->
+                    <div>
+                        <label for="elasticity">Elasticity:</label>
+                        <input type="range" id="elasticity" min="0.1" max="2" step="0.1" value="1">
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2023 Foobar Spectrum by <a href="https://asan.digital" target="_blank">Asan Digital</a></p>
+        </footer>
+    </div>
+    <script src="oscilloscope.js"></script>
 </body>
 
 </html>
