@@ -1,14 +1,24 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Foobar Oscilloscope</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css">  
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-01JKEKRL8S"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-01JKEKRL8S');
+    </script>   
+    <!-- Additional scripts or links can be added here -->
 </head>
 <body>
     <div id="container">
+        <!-- Header -->
         <header>
             <img src="Foobarspectrumlogo2.png" alt="Foobar Spectrum Logo" id="logo">
             <nav>
@@ -16,19 +26,21 @@
                 <!-- Other navigation links, if any -->
             </nav>
         </header>
+
+        <!-- Main content -->
         <main>
             <div id="visualizer-container">
-                <canvas id="oscilloscopeCanvas" class="audioVisualizerCanvas"></canvas>
+                <canvas id="oscilloscopeCanvas" width="800" height="600"></canvas>
                 <div id="basicControls" class="card">
                     <button id="startButton">Start</button>
                     <button id="stopButton">Stop</button>
                     <button id="fullscreenButton">Fullscreen</button>
                 </div>
-                <div id="advancedControls" class="card">
-                    <!-- Advanced controls specific to oscilloscope if necessary -->
-                </div>
+                <!-- Add any other controls or elements here -->
             </div>
         </main>
+
+        <!-- Footer -->
         <footer>
             <p>&copy; 2023 Foobar Spectrum by <a href="https://asan.digital" target="_blank">Asan Digital</a></p>
         </footer>
