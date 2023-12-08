@@ -1,70 +1,114 @@
-<!DOCTYPE html>
-<html lang="en">
+document.addEventListener('DOMContentLoaded', () => {
+    let audioContext;
+    let analyser;
+    let dataArray;
+    let isDrawing = false;
+    let drawVisual;
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Foobar Oscilloscope</title>
+    const oscilloscopeCanvas = document.getElementById('oscilloscopeCanvas');
+    const oscilloscopeCtx = oscilloscopeCanvas.getContext('2d');
 
-  <link rel="stylesheet" href="styles.css">
+    oscilloscopeCanvas.width = oscilloscopeCanvas.offsetWidth;
+    oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight;
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-01JKEKRL8S"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-01JKEKRL8S');
-  </script>
+    // New variables for waveform type, line thickness, and scale factor
+    let selectedWaveform = 'sine'; // Default to sine wave
+    let lineThickness = 2; // Default line thickness
+    let scaleFactor = 1; // Default scale factor
 
-</head>
+    // New HTML controls for waveform type, line thickness, and scale factor
+    const waveformTypeDropdown = document.getElementById('waveformType');
+    const lineThicknessSlider = document.getElementById('lineThickness');
+    const scaleFactorSlider = document.getElementById('scaleFactor');
 
-<body>
+    waveformTypeDropdown.addEventListener('change', (event) => {
+        selectedWaveform = event.target.value;
+    });
 
-  <div id="container">
+    lineThicknessSlider.addEventListener('input', (event) => {
+        lineThickness = event.target.value;
+    });
 
-    <header>
-      <img src="Foobarspectrumlogo2.png" alt="Foobar Spectrum Logo" id="logo">
+    scaleFactorSlider.addEventListener('input', (event) => {
+        scaleFactor = event.target.value;
+    });
 
-      <nav>
-        <a href="index.html" id="foobar-title">Foobar Spectrum</a>
-      </nav>
+    function drawOscilloscope() {
+        if (!isDrawing) return;
+        drawVisual = requestAnimationFrame(drawOscilloscope);
 
-    </header>
+        analyser.getByteTimeDomainData(dataArray);
+        oscilloscopeCtx.fillStyle = 'rgb(200, 200, 200)';
+        oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
 
-    <main>
+        oscilloscopeCtx.lineWidth = lineThickness; // Use the selected line thickness
+        oscilloscopeCtx.strokeStyle = 'rgb(0, 0, 0)';
+        oscilloscopeCtx.beginPath();
 
-      <div id="visualizer-container">
-        
-        <canvas id="oscilloscopeCanvas" style="width: 100%; height: 65vh;"></canvas>
+        var sliceWidth = (oscilloscopeCanvas.width * scaleFactor) / analyser.fftSize; // Use the selected scale factor
+        var x = 0;
 
-        <div id="controls" class="card">
-          <label for="lineThickness">Line Thickness:</label>
-          <input type="range" id="lineThickness" min="1" max="10" value="2">
-          
-          <label for="scaleFactor">Scale Factor:</label>
-          <input type="range" id="scaleFactor" min="0.5" max="5" step="0.1" value="1">
-        
-          <div id="basicControls" class="card">
-            <button id="startButton">Start</button>
-            <button id="stopButton">Stop</button>
-            <button id="fullscreenButton">Fullscreen</button>
-          </div>
+        for (var i = 0; i < analyser.fftSize; i++) {
+            var v = dataArray[i] / 128.0;
+            var y = v * (oscilloscopeCanvas.height / 2) * scaleFactor; // Adjust for scale factor
 
-        </div>
+            if (i === 0) {
+                oscilloscopeCtx.moveTo(x, y);
+            } else {
+                oscilloscopeCtx.lineTo(x, y);
+            }
 
-      </div>
+            x += sliceWidth;
+        }
 
-    </main>
+        oscilloscopeCtx.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height / 2);
+        oscilloscopeCtx.stroke();
+    }
 
-    <footer>
-      <p>&copy; 2023 Foobar Spectrum by <a href="https://asan.digital" target="_blank">Asan Digital</a></p>
-    </footer>
+    function startOscilloscope() {
+        if (isDrawing) {
+            stopOscilloscope(); // Stop the oscilloscope if it's already running
+        }
 
-  </div>
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
+        analyser.fftSize = 2048;
+        analyser.smoothingTimeConstant = 0.85;
+        dataArray = new Uint8Array(analyser.fftSize);
 
-  <script src="oscilloscope.js"></script>
+        navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+            const source = audioContext.createMediaStreamSource(stream);
+            source.connect(analyser);
+            isDrawing = true;
+            drawVisual = requestAnimationFrame(drawOscilloscope);
+        }).catch(err => {
+            console.error('Error accessing microphone:', err);
+        });
+    }
 
-</body>
+    function stopOscilloscope() {
+        if (!isDrawing) return;
+        isDrawing = false;
+        cancelAnimationFrame(drawVisual);
+        analyser.disconnect();
+        audioContext.close();
+    }
 
-</html>
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            oscilloscopeCanvas.requestFullscreen().catch(err => {
+                alert('Error attempting to enable fullscreen: ' + err.message);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    }
+
+    const startButton = document.getElementById('startButton');
+    const stopButton = document.getElementById('stopButton');
+    const fullscreenButton = document.getElementById('fullscreenButton');
+
+    startButton.addEventListener('click', startOscilloscope);
+    stopButton.addEventListener('click', stopOscilloscope);
+    fullscreenButton.addEventListener('click', toggleFullscreen);
+});
