@@ -150,7 +150,23 @@ document.addEventListener('DOMContentLoaded', () => {
       document.exitFullscreen(); 
     }
   }
+const fftSizeInput = document.getElementById('fftSize');
+  const gainInput = document.getElementById('gain');
 
+  fftSizeInput.addEventListener('input', () => {
+    const newFftSize = parseInt(fftSizeInput.value, 10);
+    if (!isNaN(newFftSize)) {
+      analyser.fftSize = newFftSize;
+      dataArray = new Uint8Array(analyser.fftSize);
+    }
+  });
+
+  gainInput.addEventListener('input', () => {
+    const newGainValue = parseFloat(gainInput.value);
+    if (!isNaN(newGainValue)) {
+      gainNode.gain.value = newGainValue;
+    }
+  });
   const startButton = document.getElementById('startButton');
   const stopButton = document.getElementById('stopButton');
   
