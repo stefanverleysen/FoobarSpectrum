@@ -1,10 +1,6 @@
-
-// JavaScript code for oscilloscope functionality
-
 document.addEventListener('DOMContentLoaded', (event) => {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    const audioContext = new AudioContext();
-    let analyser = audioContext.createAnalyser();
+    let audioContext;
+    let analyser;
     let dataArray;
     let isDrawing = false;
     let drawVisual;
@@ -49,14 +45,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function startOscilloscope() {
         if (isDrawing) return;
-        isDrawing = true;
 
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioContext.createAnalyser();
         analyser.fftSize = 2048;
+        analyser.smoothingTimeConstant = 0.85;
         dataArray = new Uint8Array(analyser.fftSize);
 
         navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
             const source = audioContext.createMediaStreamSource(stream);
             source.connect(analyser);
+            isDrawing = true;
             drawVisual = requestAnimationFrame(drawOscilloscope);
         }).catch(err => {
             console.error('Error accessing microphone:', err);
@@ -71,14 +70,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
         audioContext.close();
     }
 
-    const startButton = document.getElementById('startButton');
-    const stopButton = document.getElementById('stopButton');
-    const fullscreenButton = document.getElementById('fullscreenButton');
-
-    startButton.addEventListener('click', startOscilloscope);
-    stopButton.addEventListener('click', stopOscilloscope);
-    fullscreenButton.addEventListener('click', toggleFullscreen);
-
     function toggleFullscreen() {
         if (!document.fullscreenElement) {
             oscilloscopeCanvas.requestFullscreen().catch(err => {
@@ -88,4 +79,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
             document.exitFullscreen();
         }
     }
+
+    const startButton = document.getElementById('startButton');
+    const stopButton = document.getElementById('stopButton');
+    const fullscreenButton = document.getElementById('fullscreenButton');
+
+    startButton.addEventListener('click', startOscilloscope);
+    stopButton.addEventListener('click', stopOscilloscope);
+    fullscreenButton.addEventListener('click', toggleFullscreen);
 });
