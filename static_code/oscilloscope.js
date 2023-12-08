@@ -100,28 +100,34 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function startOscilloscope() {
-   
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
-    analyser = audioContext.createAnalyser();
-    analyser.fftSize = 8192;
+  analyser = audioContext.createAnalyser();
+  analyser.fftSize = 8192;
 
-    dataArray = new Uint8Array(analyser.fftSize);
-    analyser.getByteTimeDomainData(dataArray);
+  dataArray = new Uint8Array(analyser.fftSize);
+  analyser.getByteTimeDomainData(dataArray);
 
-    navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+  // Create a gain node to control the audio input gain
+  const gainNode = audioContext.createGain();
+  gainNode.gain.value = 5; // Adjust the gain value as needed
 
-      const source = audioContext.createMediaStreamSource(stream);
-      source.connect(analyser);
+  navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+    const source = audioContext.createMediaStreamSource(stream);
+    
+    // Connect the source to the gain node
+    source.connect(gainNode);
+    
+    // Connect the gain node to the analyser
+    gainNode.connect(analyser);
 
-      isDrawing = true; 
-      drawVisual = requestAnimationFrame(drawOscilloscope);
+    isDrawing = true;
+    drawVisual = requestAnimationFrame(drawOscilloscope);
+  }).catch(err => {
+    console.error('Error accessing microphone:', err);
+  });
+}
 
-    }).catch(err => {
-      console.error('Error accessing microphone:', err);
-    });
-  
-  }
 
   function stopOscilloscope() {
 
