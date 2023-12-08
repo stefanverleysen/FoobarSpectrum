@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const oscilloscopeCtx = oscilloscopeCanvas.getContext('2d');
 
     // Set the line color
-    ctx.strokeStyle = "gold"; // Replace "blue" with your desired color
+    oscilloscopeCtx.strokeStyle = "gold"; // Replace "gold" with your desired color
 
     oscilloscopeCanvas.width = oscilloscopeCanvas.offsetWidth;
     oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight;
