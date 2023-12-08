@@ -14,6 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let lineThickness = 2;
 
+  // Create a gain node to control the audio input gain
+  const gainNode = audioContext.createGain();
+  gainNode.gain.value = 1; // Set the initial gain value
+
   function getRandomCyberpunkColor() {
     const colors = ["#FF00FF", "#00FFFF", "#00FF00", "#FF0000", "#FFFF00"];
     return colors[Math.floor(Math.random() * colors.length)];
@@ -90,10 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     dataArray = new Uint8Array(analyser.fftSize);
     analyser.getByteTimeDomainData(dataArray);
-
-    // Create a gain node to control the audio input gain
-    const gainNode = audioContext.createGain();
-    gainNode.gain.value = 1; // Set the initial gain value
 
     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
       const source = audioContext.createMediaStreamSource(stream);
