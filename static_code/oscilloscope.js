@@ -14,24 +14,17 @@ document.addEventListener('DOMContentLoaded', () => {
     oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight * dpr;
     oscilloscopeCtx.scale(dpr, dpr);
 
-    const lineThicknessSlider = document.getElementById('lineThickness');
-    const speedSlider = document.getElementById('speed');
-    const elasticitySlider = document.getElementById('elasticity');
-
+    // Set default values for line thickness, speed, and elasticity
     let lineThickness = 2;
     let speed = 1;
-    let elasticity = 1;
+    let elasticity = 1; // Default elasticity, adjust as needed
 
-    lineThicknessSlider.addEventListener('input', (event) => {
-        lineThickness = event.target.value;
-    });
+    // Sensitivity control
+    let sensitivity = 0.5; // Default sensitivity value
+    const sensitivitySlider = document.getElementById('sensitivity');
 
-    speedSlider.addEventListener('input', (event) => {
-        speed = event.target.value;
-    });
-
-    elasticitySlider.addEventListener('input', (event) => {
-        elasticity = event.target.value;
+    sensitivitySlider.addEventListener('input', (event) => {
+        sensitivity = event.target.value;
     });
 
     // Function to generate a random cyberpunk color in hex format
@@ -48,9 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
         oscilloscopeCtx.fillStyle = 'rgb(0, 0, 0)';
         oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
 
-        oscilloscopeCtx.lineWidth = lineThickness; // Adjust line thickness if needed
-        oscilloscopeCtx.lineJoin = 'round'; // Smoother joining of lines
-        oscilloscopeCtx.lineCap = 'round'; // Rounded ends of lines for a smoother look
+        oscilloscopeCtx.lineWidth = lineThickness;
+        oscilloscopeCtx.lineJoin = 'round';
+        oscilloscopeCtx.lineCap = 'round';
         oscilloscopeCtx.strokeStyle = getRandomCyberpunkColor();
         oscilloscopeCtx.beginPath();
 
@@ -58,8 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
         var x = 0;
 
         for (var i = 0; i < analyser.fftSize; i++) {
-            var v = dataArray[i] / 128.0;
-            var y = (v * (oscilloscopeCanvas.height / 2) * elasticity);
+            var v = (dataArray[i] / 128.0) * sensitivity; // Apply sensitivity to wave amplitude
+            var y = v * (oscilloscopeCanvas.height / 2);
 
             if (i === 0) {
                 oscilloscopeCtx.moveTo(x, y);
