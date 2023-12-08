@@ -1,92 +1,90 @@
+const canvas = document.getElementById('oscilloscope');
+const ctx = canvas.getContext('2d');
 
-// JavaScript code for oscilloscope functionality
+let isDrawing = false;
+let requestId; 
 
-document.addEventListener('DOMContentLoaded', (event) => {
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
-    const audioContext = new AudioContext();
-    let analyser = audioContext.createAnalyser();
-    let dataArray;
-    let isDrawing = false;
-    let drawVisual;
+let analyser;
+let dataArray;
 
-    const oscilloscopeCanvas = document.getElementById('oscilloscopeCanvas');
-    const oscilloscopeCtx = oscilloscopeCanvas.getContext('2d');
+const startButton = document.getElementById('start');
+const stopButton = document.getElementById('stop');
 
-    // Fit the canvas to the container size in the CSS
-    oscilloscopeCanvas.width = oscilloscopeCanvas.offsetWidth;
-    oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight;
+startButton.addEventListener('click', start); 
+stopButton.addEventListener('click', stop);
 
-    function drawOscilloscope() {
-        if (!isDrawing) return;
-        drawVisual = requestAnimationFrame(drawOscilloscope);
+const start = async () => {
 
-        analyser.getByteTimeDomainData(dataArray);
-        oscilloscopeCtx.fillStyle = 'rgb(200, 200, 200)';
-        oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
+  try {
 
-        oscilloscopeCtx.lineWidth = 2;
-        oscilloscopeCtx.strokeStyle = 'rgb(0, 0, 0)';
-        oscilloscopeCtx.beginPath();
+    const stream = await navigator.mediaDevices.getUserMedia({
+      audio: true
+    });
 
-        var sliceWidth = oscilloscopeCanvas.width * 1.0 / analyser.fftSize;
-        var x = 0;
+    const audioCtx = new AudioContext();
 
-        for (var i = 0; i < analyser.fftSize; i++) {
-            var v = dataArray[i] / 128.0;
-            var y = v * oscilloscopeCanvas.height / 2;
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 2048;
+    dataArray = new Uint8Array(analyser.fftSize);
 
-            if (i === 0) {
-                oscilloscopeCtx.moveTo(x, y);
-            } else {
-                oscilloscopeCtx.lineTo(x, y);
-            }
+    const source = audioCtx.createMediaStreamSource(stream);
 
-            x += sliceWidth;
-        }
+    source.connect(analyser);
 
-        oscilloscopeCtx.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height / 2);
-        oscilloscopeCtx.stroke();
-    }
+    isDrawing = true;
+    draw();
 
-    function startOscilloscope() {
-        if (isDrawing) return;
-        isDrawing = true;
+  } catch(err) {
+    console.log('Could not get audio stream', err);
+  }
 
-        analyser.fftSize = 2048;
-        dataArray = new Uint8Array(analyser.fftSize);
+};
 
-        navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-            const source = audioContext.createMediaStreamSource(stream);
-            source.connect(analyser);
-            drawVisual = requestAnimationFrame(drawOscilloscope);
-        }).catch(err => {
-            console.error('Error accessing microphone:', err);
-        });
-    }
+function draw() {
 
-    function stopOscilloscope() {
-        if (!isDrawing) return;
-        isDrawing = false;
-        cancelAnimationFrame(drawVisual);
-        analyser.disconnect();
-        audioContext.close();
-    }
+  if(!isDrawing) 
+    return;
+    
+  requestId = requestAnimationFrame(draw);
 
-    const startButton = document.getElementById('startButton');
-    const stopButton = document.getElementById('stopButton');
-    const fullscreenButton = document.getElementById('fullscreenButton');
+  analyser.getByteTimeDomainData(dataArray); 
 
-    startButton.addEventListener('click', startOscilloscope);
-    stopButton.addEventListener('click', stopOscilloscope);
-    fullscreenButton.addEventListener('click', toggleFullscreen);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    function toggleFullscreen() {
-        if (!document.fullscreenElement) {
-            oscilloscopeCanvas.requestFullscreen().catch(err => {
-                alert('Error attempting to enable fullscreen: ' + err.message);
-            });
-        } else {
-            document.exitFullscreen();
-        }
-    }
-});
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = 'rgb(0, 0, 0)';
+
+  ctx.beginPath();
+  
+  const sliceWidth = canvas.width * 1.0 / analyser.fftSize;
+  let x = 0;
+
+  for(let i = 0; i < analyser.fftSize; i++) {
+
+    const v = dataArray[i] / 128.0;
+    let y = v * canvas.height / 2;
+
+    if(i === 0)
+      ctx.moveTo(x, y);
+    else  
+      ctx.lineTo(x, y);   
+
+    x += sliceWidth;
+  }
+
+  ctx.lineTo(canvas.width, canvas.height/2);
+
+  ctx.stroke();  
+}
+
+function stop() { 
+  
+  if(!isDrawing)
+    return;
+
+  isDrawing = false;
+  
+  cancelAnimationFrame(requestId);
+  
+  analyser.disconnect();
+}
