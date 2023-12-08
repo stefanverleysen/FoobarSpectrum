@@ -91,6 +91,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const stopButton = document.getElementById('stopButton');
     const fullscreenButton = document.getElementById('fullscreenButton');
 
+    // Add event listeners for the waveform type, line thickness, and scale factor controls
+const waveformTypeDropdown = document.getElementById('waveformType');
+const lineThicknessSlider = document.getElementById('lineThickness');
+const scaleFactorSlider = document.getElementById('scaleFactor');
+
+    waveformTypeDropdown.addEventListener('change', (event) => {
+    selectedWaveform = event.target.value;
+    });
+
+    lineThicknessSlider.addEventListener('input', (event) => {
+        lineThickness = event.target.value;
+    });
+
+    scaleFactorSlider.addEventListener('input', (event) => {
+       scaleFactor = event.target.value;
+    });
+
+    
     startButton.addEventListener('click', startOscilloscope);
     stopButton.addEventListener('click', stopOscilloscope);
     fullscreenButton.addEventListener('click', toggleFullscreen);
