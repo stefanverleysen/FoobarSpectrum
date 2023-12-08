@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.addEventListener('fullscreenchange', onFullScreenChange);
 
-  function drawOscilloscope() {
+ function drawOscilloscope() {
     if (!isDrawing) return;
 
     drawVisual = requestAnimationFrame(drawOscilloscope);
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     for (var i = 0; i < dataArray.length; i++) {
       var v = dataArray[i] / 128.0;
-      var y = v * oscilloscopeCanvas.height; // Remove /2 divisor
+      var y = (1 - v) * oscilloscopeCanvas.height / 2; // Modify this line
 
       if (i === 0) {
         oscilloscopeCtx.moveTo(x, y);
@@ -80,9 +80,9 @@ document.addEventListener('DOMContentLoaded', () => {
       x += sliceWidth;
     }
 
-    oscilloscopeCtx.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height);
+    oscilloscopeCtx.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height / 2);
     oscilloscopeCtx.stroke();
-  }
+}
 
   function startOscilloscope() {
     audioContext = new (window.AudioContext || window.webkitAudioContext)();
