@@ -18,11 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let lineThickness = 1;
 
     // Curve duration control
-    let curveDuration = 200; // Default value in ms
+    let curveDurationMs = 200; // Default value in ms
     const curveDurationSlider = document.getElementById('curveDuration');
 
     curveDurationSlider.addEventListener('input', (event) => {
-        curveDuration = parseInt(event.target.value, 10);
+        curveDurationMs = parseInt(event.target.value, 10);
     });
 
     // Function to generate a random cyberpunk color in hex format
@@ -45,14 +45,22 @@ document.addEventListener('DOMContentLoaded', () => {
         oscilloscopeCtx.strokeStyle = getRandomCyberpunkColor();
         oscilloscopeCtx.beginPath();
 
-        var sliceWidth = (oscilloscopeCanvas.width * curveDuration / 1000) / analyser.fftSize;
+        // Calculate the number of samples to display based on the curve duration
+        const sampleRate = audioContext.sampleRate;
+        const samplesToDisplay = curveDurationMs * sampleRate / 1000;
+
+        // Calculate the slice width based on the number of samples to display
+        var sliceWidth = oscilloscopeCanvas.width / samplesToDisplay;
         var x = 0;
 
-        for (var i = 0; i < analyser.fftSize; i++) {
-            var v = dataArray[i] / 128.0 - 1;
-            var y = (oscilloscopeCanvas.height / 2) + v * (oscilloscopeCanvas.height / 2);
+        // Determine the starting index for the data array based on the curve duration
+        var startIndex = Math.max(0, dataArray.length - samplesToDisplay);
 
-            if (i === 0) {
+        for (var i = startIndex; i < dataArray.length; i++) {
+            var v = dataArray[i] / 128.0 - 1;
+            var y = oscilloscopeCanvas.height / 2 + v * oscilloscopeCanvas.height / 2;
+
+            if (i === startIndex) {
                 oscilloscopeCtx.moveTo(x, y);
             } else {
                 oscilloscopeCtx.lineTo(x, y);
