@@ -5,6 +5,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let isDrawing = false;
     let drawVisual;
 
+
+    // New variables for waveform type, line thickness, and scale factor
+    let selectedWaveform = 'sine'; // Default to sine wave
+    let lineThickness = 2; // Default line thickness
+    let scaleFactor = 1; // Default scale factor
+
+    
     const oscilloscopeCanvas = document.getElementById('oscilloscopeCanvas');
     const oscilloscopeCtx = oscilloscopeCanvas.getContext('2d');
 
