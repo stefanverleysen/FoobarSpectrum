@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Set default values for line thickness and speed
     let lineThickness = 1;
-    let speed = .75;
+    let speed = 1;
 
     // Sensitivity control
     let sensitivity = 0.5; // Default sensitivity value
