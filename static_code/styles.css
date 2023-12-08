@@ -69,7 +69,7 @@ main {
 /* Default background for the visualizer canvas */
 #audioVisualizerCanvas {
     width: 100%;
-    height: 400px;
+    height: 80vh;
     background-color: #000;  
 }
 
@@ -182,9 +182,13 @@ footer a:hover {
     #basicControls button {
         width: 100%;
     }
-}
 
-/* Full original CSS plus... */
+    #audioVisualizerCanvas {
+        height: 60vh; /* Adjusted height for smaller screens */
+    }
+}
+    
+    /* Full original CSS plus... */
 
 .accordion-btn.active {
   background-color: #666; 
