@@ -16,30 +16,39 @@ document.addEventListener('DOMContentLoaded', (event) => {
     oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight;
 
     function drawOscilloscope() {
-        // Drawing logic
+        if (!isDrawing) return;
+        // Drawing logic (to be implemented based on specific visualization needs)
     }
 
     function startOscilloscope() {
-        // User-initiated start logic
+        if (isDrawing) return;
+        isDrawing = true;
+        drawVisual = requestAnimationFrame(drawOscilloscope);
+        // User-initiated start logic (connect to audio source, etc.)
     }
 
     function stopOscilloscope() {
-        // Stop logic
+        if (!isDrawing) return;
+        isDrawing = false;
+        cancelAnimationFrame(drawVisual);
+        // Stop logic (disconnect from audio source, etc.)
+    }
+
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            oscilloscopeCanvas.requestFullscreen().catch(err => {
+                alert('Error attempting to enable fullscreen: ' + err.message);
+            });
+        } else {
+            document.exitFullscreen();
+        }
     }
 
     const startButton = document.getElementById('startButton');
     const stopButton = document.getElementById('stopButton');
     const fullscreenButton = document.getElementById('fullscreenButton');
 
-    if (startButton) {
-        startButton.addEventListener('click', startOscilloscope);
-    }
-
-    if (stopButton) {
-        stopButton.addEventListener('click', stopOscilloscope);
-    }
-
-    // Fullscreen button functionality to be implemented
+    startButton.addEventListener('click', startOscilloscope);
+    stopButton.addEventListener('click', stopOscilloscope);
+    fullscreenButton.addEventListener('click', toggleFullscreen);
 });
-
-// The rest of the oscilloscope functionality to be implemented as before
