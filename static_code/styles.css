@@ -23,7 +23,7 @@ body, html {
 #oscilloscopeCanvas {
     background-color: black; /* Corrected background color without double quotes */
     width: 100%;
-    height: 65vh; /* 65% of the viewport height */
+    height: 100%;
 }
 #foobar-title {
     font-weight: bold;
