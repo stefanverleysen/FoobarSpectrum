@@ -48,6 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.addEventListener('fullscreenchange', onFullScreenChange);
 
+  // Create a gain node to control the audio input gain
+  const gainNode = audioContext.createGain();
+  gainNode.gain.value = 5; // Set the initial gain value to 5
+
   function drawOscilloscope() {
     if (!isDrawing) return;
 
@@ -71,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
       var v = dataArray[i] / 128.0;
       var y = v * oscilloscopeCanvas.height / 2;
 
-
       if (i === 0) {
         oscilloscopeCtx.moveTo(x, y);
       } else {
@@ -93,7 +96,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
       const source = audioContext.createMediaStreamSource(stream);
-      source.connect(analyser);
+      
+      // Connect the source to the gain node
+      source.connect(gainNode);
+      
+      // Connect the gain node to the analyser
+      gainNode.connect(analyser);
 
       isDrawing = true;
       drawVisual = requestAnimationFrame(drawOscilloscope);
