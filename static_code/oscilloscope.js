@@ -31,7 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
     elasticitySlider.addEventListener('input', (event) => {
         elasticity = event.target.value;
     });
-
+    // Function to generate a random cyberpunk color in hex format
+    function getRandomCyberpunkColor() {
+    const cyberpunkColors = ["#FF00FF", "#00FFFF", "#00FF00", "#FF0000", "#FFFF00"];
+    return cyberpunkColors[Math.floor(Math.random() * cyberpunkColors.length)];
     function drawOscilloscope() {
     if (!isDrawing) return;
     drawVisual = requestAnimationFrame(drawOscilloscope);
