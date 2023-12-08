@@ -14,6 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let lineThickness = 2;
 
+  // Create a gain node to control the audio input gain
+  const gainNode = audioContext.createGain();
+  gainNode.gain.value = 1; // Set the initial gain value
+
   function getRandomCyberpunkColor() {
     const colors = ["#FF00FF", "#00FFFF", "#00FF00", "#FF0000", "#FFFF00"];
     return colors[Math.floor(Math.random() * colors.length)];
@@ -94,7 +98,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
       const source = audioContext.createMediaStreamSource(stream);
-      source.connect(analyser);
+
+      // Connect the source directly to the gain node
+      source.connect(gainNode);
+
+      // Connect the gain node to the analyser
+      gainNode.connect(analyser);
 
       isDrawing = true;
       drawVisual = requestAnimationFrame(drawOscilloscope);
@@ -122,6 +131,25 @@ document.addEventListener('DOMContentLoaded', () => {
       document.exitFullscreen();
     }
   }
+
+  // Add event listeners for FFT Size and Gain controls
+  const fftSizeInput = document.getElementById('fftSize');
+  const gainInput = document.getElementById('gain');
+
+  fftSizeInput.addEventListener('input', () => {
+    const newFftSize = parseInt(fftSizeInput.value, 10);
+    if (!isNaN(newFftSize)) {
+      analyser.fftSize = newFftSize;
+      dataArray = new Uint8Array(analyser.fftSize);
+    }
+  });
+
+  gainInput.addEventListener('input', () => {
+    const newGainValue = parseFloat(gainInput.value);
+    if (!isNaN(newGainValue)) {
+      gainNode.gain.value = newGainValue;
+    }
+  });
 
   const startButton = document.getElementById('startButton');
   const stopButton = document.getElementById('stopButton');
