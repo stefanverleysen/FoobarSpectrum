@@ -13,6 +13,7 @@ body, html {
     color: #fff;
 }
 
+
 /* Container to hold everything in place */
 #container {
     min-height: 100%;
@@ -59,7 +60,9 @@ main {
 #visualizer-container {
     position: relative;
 }
-
+#audioVisualizerCanvas {
+    width: 100%;
+    height: 65vh; /* Adjust the value as needed */
 /* Default background for the visualizer canvas */
 #oscilloscopeCanvas {
     width: 100%;
