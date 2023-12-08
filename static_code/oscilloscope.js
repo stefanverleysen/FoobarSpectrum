@@ -8,8 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const oscilloscopeCanvas = document.getElementById('oscilloscopeCanvas');
     const oscilloscopeCtx = oscilloscopeCanvas.getContext('2d');
 
-    // Set the line color
-    oscilloscopeCtx.strokeStyle = "gold"; // Replace "gold" with your desired color
+    // Set the canvas background color to black
+    oscilloscopeCtx.fillStyle = 'black';
+    oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
+
+    // Set the line color to gold
+    oscilloscopeCtx.strokeStyle = "gold";
+
 
     oscilloscopeCanvas.width = oscilloscopeCanvas.offsetWidth;
     oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight;
