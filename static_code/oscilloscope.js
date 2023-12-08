@@ -48,6 +48,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.addEventListener('fullscreenchange', onFullScreenChange);
 
+  // Check if the AudioContext is available
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  
+  if (AudioContext) {
+    audioContext = new AudioContext();
+  } else {
+    console.error('Web Audio API is not supported in this browser.');
+    return;
+  }
+
   // Create a gain node to control the audio input gain
   const gainNode = audioContext.createGain();
   gainNode.gain.value = 5; // Set the initial gain value to 5
@@ -88,7 +98,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function startOscilloscope() {
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
     analyser = audioContext.createAnalyser();
     analyser.fftSize = 8192;
     dataArray = new Uint8Array(analyser.fftSize);
