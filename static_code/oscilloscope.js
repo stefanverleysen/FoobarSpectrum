@@ -33,36 +33,36 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function drawOscilloscope() {
-        if (!isDrawing) return;
-        drawVisual = requestAnimationFrame(drawOscilloscope);
+    if (!isDrawing) return;
+    drawVisual = requestAnimationFrame(drawOscilloscope);
 
-        analyser.getByteTimeDomainData(dataArray);
-        oscilloscopeCtx.fillStyle = 'rgb(0, 0, 0)';
-        oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
+    analyser.getByteTimeDomainData(dataArray);
+    oscilloscopeCtx.fillStyle = 'rgb(0, 0, 0)';
+    oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
 
-        oscilloscopeCtx.lineWidth = lineThickness;
-        oscilloscopeCtx.strokeStyle = 'rgb(255, 215, 0)';
-        oscilloscopeCtx.beginPath();
+    oscilloscopeCtx.lineWidth = lineThickness;
+    oscilloscopeCtx.strokeStyle = getRandomCyberpunkColor(); // Use the random color generator for strokeStyle
+    oscilloscopeCtx.beginPath();
 
-        var sliceWidth = (oscilloscopeCanvas.width * speed) / analyser.fftSize;
-        var x = 0;
+    var sliceWidth = (oscilloscopeCanvas.width * speed) / analyser.fftSize;
+    var x = 0;
 
-        for (var i = 0; i < analyser.fftSize; i++) {
-            var v = dataArray[i] / 128.0;
-            var y = (v * (oscilloscopeCanvas.height / 2) * elasticity);
+    for (var i = 0; i < analyser.fftSize; i++) {
+        var v = dataArray[i] / 128.0;
+        var y = (v * (oscilloscopeCanvas.height / 2) * elasticity);
 
-            if (i === 0) {
-                oscilloscopeCtx.moveTo(x, y);
-            } else {
-                oscilloscopeCtx.lineTo(x, y);
-            }
-
-            x += sliceWidth;
+        if (i === 0) {
+            oscilloscopeCtx.moveTo(x, y);
+        } else {
+            oscilloscopeCtx.lineTo(x, y);
         }
 
-        oscilloscopeCtx.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height / 2);
-        oscilloscopeCtx.stroke();
+        x += sliceWidth;
     }
+
+    oscilloscopeCtx.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height / 2);
+    oscilloscopeCtx.stroke();
+}
 
     function startOscilloscope() {
         if (isDrawing) return;
