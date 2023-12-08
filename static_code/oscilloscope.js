@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let lineThickness = 2;
 
   // Create a gain node to control the audio input gain
+  audioContext = new (window.AudioContext || window.webkitAudioContext)();
   const gainNode = audioContext.createGain();
   gainNode.gain.value = 1; // Set the initial gain value
 
@@ -88,8 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function startOscilloscope() {
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
     analyser = audioContext.createAnalyser();
     analyser.fftSize = 8192;
 
