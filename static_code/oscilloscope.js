@@ -8,8 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const oscilloscopeCanvas = document.getElementById('oscilloscopeCanvas');
     const oscilloscopeCtx = oscilloscopeCanvas.getContext('2d');
 
-    oscilloscopeCanvas.width = oscilloscopeCanvas.offsetWidth;
-    oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight;
+    // Adjust for high-DPI displays
+    let dpr = window.devicePixelRatio || 1;
+    oscilloscopeCanvas.width = oscilloscopeCanvas.offsetWidth * dpr;
+    oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight * dpr;
+    oscilloscopeCtx.scale(dpr, dpr);
 
     const lineThicknessSlider = document.getElementById('lineThickness');
     const speedSlider = document.getElementById('speed');
@@ -45,8 +48,10 @@ document.addEventListener('DOMContentLoaded', () => {
         oscilloscopeCtx.fillStyle = 'rgb(0, 0, 0)';
         oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
 
-        oscilloscopeCtx.lineWidth = lineThickness;
-        oscilloscopeCtx.strokeStyle = getRandomCyberpunkColor(); // Use the random color generator for strokeStyle
+        oscilloscopeCtx.lineWidth = lineThickness; // Adjust line thickness if needed
+        oscilloscopeCtx.lineJoin = 'round'; // Smoother joining of lines
+        oscilloscopeCtx.lineCap = 'round'; // Rounded ends of lines for a smoother look
+        oscilloscopeCtx.strokeStyle = getRandomCyberpunkColor();
         oscilloscopeCtx.beginPath();
 
         var sliceWidth = (oscilloscopeCanvas.width * speed) / analyser.fftSize;
