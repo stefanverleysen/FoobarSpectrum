@@ -55,9 +55,11 @@ main {
     padding: 1em;
 }
 
-/* Visualizer container */
 #visualizer-container {
     position: relative;
+    width: 100%; /* Set the width to 100% */
+    max-width: 100%; /* Limit the maximum width to 100% */
+    height: auto; /* Allow the height to adjust based on content */
 }
 
 /* Default background for the visualizer canvas */
