@@ -33,37 +33,59 @@ document.addEventListener('DOMContentLoaded', () => {
         scaleFactor = event.target.value;
     });
 
-    function drawOscilloscope() {
-        if (!isDrawing) return;
-        drawVisual = requestAnimationFrame(drawOscilloscope);
+   function drawOscilloscope() {
+    if (!isDrawing) return;
+    drawVisual = requestAnimationFrame(drawOscilloscope);
 
-        analyser.getByteTimeDomainData(dataArray);
-        oscilloscopeCtx.fillStyle = 'rgb(200, 200, 200)';
-        oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
+    analyser.getByteTimeDomainData(dataArray);
+    oscilloscopeCtx.fillStyle = 'rgb(200, 200, 200)';
+    oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
 
-        oscilloscopeCtx.lineWidth = lineThickness; // Use the selected line thickness
-        oscilloscopeCtx.strokeStyle = 'rgb(0, 0, 0)';
-        oscilloscopeCtx.beginPath();
+    oscilloscopeCtx.lineWidth = lineThickness; // Use the selected line thickness
+    oscilloscopeCtx.strokeStyle = 'rgb(0, 0, 0)';
+    oscilloscopeCtx.beginPath();
 
-        var sliceWidth = (oscilloscopeCanvas.width * scaleFactor) / analyser.fftSize; // Use the selected scale factor
-        var x = 0;
+    var sliceWidth = (oscilloscopeCanvas.width * scaleFactor) / analyser.fftSize; // Use the selected scale factor
+    var x = 0;
 
-        for (var i = 0; i < analyser.fftSize; i++) {
-            var v = dataArray[i] / 128.0;
-            var y = v * (oscilloscopeCanvas.height / 2) * scaleFactor; // Adjust for scale factor
+    for (var i = 0; i < analyser.fftSize; i++) {
+        var v = dataArray[i] / 128.0;
+        var y;
 
-            if (i === 0) {
-                oscilloscopeCtx.moveTo(x, y);
-            } else {
-                oscilloscopeCtx.lineTo(x, y);
-            }
-
-            x += sliceWidth;
+        // Adjust the y value based on the selected waveform type
+        switch (selectedWaveform) {
+            case 'sine':
+                y = Math.sin(2 * Math.PI * i / analyser.fftSize);
+                break;
+            case 'square':
+                y = v >= 0.5 ? 1 : -1;
+                break;
+            case 'sawtooth':
+                y = (v * 2 - 1) * (i / analyser.fftSize);
+                break;
+            case 'triangle':
+                y = 1 - 4 * Math.abs((i / analyser.fftSize) - 0.5);
+                break;
+            default:
+                y = 0;
+                break;
         }
 
-        oscilloscopeCtx.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height / 2);
-        oscilloscopeCtx.stroke();
+        y = y * (oscilloscopeCanvas.height / 2) * scaleFactor; // Adjust for scale factor
+
+        if (i === 0) {
+            oscilloscopeCtx.moveTo(x, y);
+        } else {
+            oscilloscopeCtx.lineTo(x, y);
+        }
+
+        x += sliceWidth;
     }
+
+    oscilloscopeCtx.lineTo(oscilloscopeCanvas.width, oscilloscopeCanvas.height / 2);
+    oscilloscopeCtx.stroke();
+}
+
 
     function startOscilloscope() {
         if (isDrawing) {
