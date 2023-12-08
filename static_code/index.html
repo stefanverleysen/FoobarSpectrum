@@ -84,7 +84,11 @@ function toggleFullscreen() {
                     <button id="stopVisualization">Stop</button>
                     <button id="fullscreenButton">Fullscreen</button>
                 </div>
-				<div>
+           
+                    <div id="fftSizeComponents" style="display: none;">
+                        <label for="fftSizeSlider">FFT Size: <span id="fftSizeValue">2048</span></label>
+                        <input type="range" id="fftSizeSlider" min="32" max="32768" value="2048" title="Move to balance frequency detail and time precision in visualization.">
+                    </div>
                     <label for="barCountSlider">Number of Bars: <span id="barCountValue">50</span></label>
                     <input type="range" id="barCountSlider" min="10" max="200" value="50" title="Adjust to change the number of bars for granularity of sound representation.">
                     <label for="smoothingSlider">Smoothing: <span id="smoothingValue">0.8</span></label>
