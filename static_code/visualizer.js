@@ -112,6 +112,21 @@ function toggleFullscreen() {
     }
 }
 
+// Adjust the canvas size on entering and exiting fullscreen
+function adjustCanvasSize() {
+    if (document.fullscreenElement) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    } else {
+        canvas.width = canvas.parentElement.offsetWidth;
+        canvas.height = canvas.parentElement.offsetHeight;
+    }
+    setupCanvasResolution();
+    if (typeof draw === 'function') {
+        draw(); // Redraw the visualizer
+    }
+}
+
 // Update value displays
 function updateBarCountValue() {
     barCount = parseInt(barCountSlider.value, 10);
@@ -128,6 +143,7 @@ document.getElementById('stopVisualization').addEventListener('click', stopVisua
 barCountSlider.addEventListener('input', updateBarCountValue);
 smoothingSlider.addEventListener('input', updateSmoothingValue);
 canvas.addEventListener('dblclick', toggleFullscreen);
+document.addEventListener('fullscreenchange', adjustCanvasSize);
 
 // Initialize values
 updateBarCountValue();
