@@ -61,39 +61,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.addEventListener('fullscreenchange', onFullScreenChange);
 
-  function drawOscilloscope() {
-    if (!isDrawing) return;
+ function drawOscilloscope() {
+  if (!isDrawing) return;
 
-    drawVisual = requestAnimationFrame(drawOscilloscope);
+  drawVisual = requestAnimationFrame(drawOscilloscope);
 
-    analyser.getByteTimeDomainData(dataArray);
+  analyser.getByteTimeDomainData(dataArray);
 
-    oscilloscopeCtx.fillStyle = 'rgb(0, 0, 0)';
-    oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
+  oscilloscopeCtx.fillStyle = 'rgb(0, 0, 0)';
+  oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
 
-    oscilloscopeCtx.lineWidth = lineThickness;
-    oscilloscopeCtx.strokeStyle = getRandomCyberpunkColor();
+  oscilloscopeCtx.lineWidth = lineThickness;
+  oscilloscopeCtx.strokeStyle = getRandomCyberpunkColor();
 
-    oscilloscopeCtx.beginPath();
+  oscilloscopeCtx.beginPath();
 
-    var sliceWidth = oscilloscopeCanvas.width / dataArray.length;
-    var x = 0;
-    var centerY = oscilloscopeCanvas.height / 2; // Calculate centerY
+  var sliceWidth = oscilloscopeCanvas.width / dataArray.length;
+  var x = 0;
+  var centerY = oscilloscopeCanvas.height / 2; // Calculate centerY
 
-    for (var i = 0; i < dataArray.length; i++) {
-      var v = dataArray[i] / 128.0;
-      var y = v * oscilloscopeCanvas.height / 2;
+  const gainValue = parseFloat(gainInput.value); // Log gainValue
+  console.log('Gain Value:', gainValue);
 
-      if (i === 0) {
-        oscilloscopeCtx.moveTo(x, y);
-      } else {
-        oscilloscopeCtx.lineTo(x, y);
-      }
+  for (var i = 0; i < dataArray.length; i++) {
+    var v = dataArray[i] / 128.0;
+    var y = v * oscilloscopeCanvas.height / 2;
 
-      x += sliceWidth;
+    if (i === 0) {
+      oscilloscopeCtx.moveTo(x, y);
+    } else {
+      oscilloscopeCtx.lineTo(x, y);
     }
 
-    oscilloscopeCtx.stroke();
+    x += sliceWidth;
+  }
+
+  console.log('dataArray:', dataArray); // Log dataArray
+
+  oscilloscopeCtx.stroke();
+}
   }
 
   function startOscilloscope() {
