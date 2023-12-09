@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let dataArray;
   let isDrawing = false;
   let drawVisual;
+  let currentGain = 5.0; // Default to 5.0
   const oscilloscopeCanvas = document.getElementById('oscilloscopeCanvas');
   const oscilloscopeCtx = oscilloscopeCanvas.getContext('2d');
   let dpr = window.devicePixelRatio || 1;
@@ -161,6 +162,10 @@ document.addEventListener('DOMContentLoaded', () => {
   startButton.addEventListener('click', startOscilloscope);
   stopButton.addEventListener('click', stopOscilloscope);
 
-  // Add event listeners for fftSize and gain inputs here
+  gainInput.addEventListener('input', () => {
+
+  currentGain = parseFloat(gainInput.value);
+
+});
 
 });
