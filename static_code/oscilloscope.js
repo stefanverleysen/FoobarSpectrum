@@ -169,6 +169,10 @@ document.addEventListener('DOMContentLoaded', () => {
   gainInput.addEventListener('input', () => {
 
   currentGain = parseFloat(gainInput.value);
+    
+  document.addEventListener('DOMContentLoaded', (event) => {
+    startOscilloscope(); // Ensure this function is defined in this file or is accessible
+});
 
 });
 
