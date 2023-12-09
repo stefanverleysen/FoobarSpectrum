@@ -12,7 +12,10 @@ body, html {
     background-color: #1a1a1a; /* Classic Foobar dark theme */
     color: #fff;
 }
-
+#audioVisualizerCanvas {
+    width: 100%; /* Full width of the container */
+    height: 65vh; /* Adjusted height, can be set as per design */
+}
 /* Container to hold everything in place */
 #container {
     min-height: 100%;
