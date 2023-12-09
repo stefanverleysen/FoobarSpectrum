@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let dataArray;
   let isDrawing = false;
   let drawVisual;
-  let currentGain = 5.0; // Default to 5.0
+  let currentGain = 1.0; // Default to 1.0
   const oscilloscopeCanvas = document.getElementById('oscilloscopeCanvas');
   const oscilloscopeCtx = oscilloscopeCanvas.getContext('2d');
   let dpr = window.devicePixelRatio || 1;
