@@ -139,7 +139,11 @@ button:hover {
     margin-left: 8px;
     font-weight: bold;
 }
-
+#audioVisualizerCanvas {
+    width: 100%;
+    flex-grow: 1; /* Expand to occupy remaining vertical space */
+    background-color: #000;
+}
 /* Footer styling */
 footer {
     background-color: #333;
