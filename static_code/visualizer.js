@@ -54,6 +54,10 @@ function draw() {
 
     analyser.getByteFrequencyData(dataArray);
 
+    // Clear the canvas with the background color
+    canvasCtx.fillStyle = backgroundColor;
+    canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
     const barWidth = calculateBarWidth();
     let x = 0;
 
@@ -64,7 +68,6 @@ function draw() {
         x += barWidth;
     }
 }
-
 // Start visualization
 function startVisualization() {
     if (!navigator.mediaDevices.getUserMedia) {
