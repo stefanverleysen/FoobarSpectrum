@@ -155,6 +155,24 @@ footer a {
     color: #fff; /* This will make the links white */
     text-decoration: none; /* Optional: removes the underline from links */
 }
+/* Stef Experimental Code */
+.control {
+    display: flex;
+    align-items: center;
+}
+
+#number-of-bars-icon {
+    cursor: pointer; /* Indicates the icon is clickable */
+    width: 128px; /* Size of the icon */
+    height: 128px;
+}
+
+.slider {
+    /* Style your slider here */
+    margin-left: 10px; /* Adds some space between the icon and the slider */
+}
+
+
 
 footer a:hover {
     color: #ccc; /* Optional: changes color on hover for visual feedback */
