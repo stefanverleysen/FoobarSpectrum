@@ -1,141 +1,213 @@
-document.addEventListener('DOMContentLoaded', () => {
-  let audioContext;
-  let analyser;
-  let dataArray;
-  let isDrawing = false;
-  let drawVisual;
-  const oscilloscopeCanvas = document.getElementById('oscilloscopeCanvas');
-  const oscilloscopeCtx = oscilloscopeCanvas.getContext('2d');
-  let dpr = window.devicePixelRatio || 1;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foobar Oscilloscope</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-01JKEKRL8S"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-  oscilloscopeCanvas.width = oscilloscopeCanvas.offsetWidth * dpr;
-  oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight * dpr;
-  oscilloscopeCtx.scale(dpr, dpr);
+        function gtag() {
+            dataLayer.push(arguments);
+        }
 
-  let lineThickness = 2;
+        gtag('js', new Date());
+        gtag('config', 'G-01JKEKRL8S');
+    </script>
+</head>
 
-  function getRandomCyberpunkColor() {
-    const colors = ["#FF00FF", "#00FFFF", "#00FF00", "#FF0000", "#FFFF00"];
-    return colors[Math.floor(Math.random() * colors.length)];
-  }
+<body>
+    <div id="container">
+        <header>
+            <img src="Foobarspectrumlogo2.png" alt="Foobar Spectrum Logo" id="logo">
+            <nav>
+                <a href="index.html" id="foobar-title">Foobar Spectrum</a>
+            </nav>
+        </header>
+        <main>
+            <div id="visualizer-container">
+                <canvas id="oscilloscopeCanvas" style="width: 100%; height: 65vh;"></canvas>
+                <div id="controls" class="card">
+                    <!-- Start, Stop, and Fullscreen buttons -->
+                    <div id="basicControls">
+                        <button id="startButton">Start</button>
+                        <button id="stopButton">Stop</button>
+                        <button id="fullscreenButton">Fullscreen</button>
+                    </div>
+                    <div class="control-card">
+                        <h2>Audio Controls</h2>
+                        <label for="fftSize">FFT Size:</label>
+                        <input type="range" id="fftSize" min="32" max="8192" step="32" value="8192">
+                        <br>
+                        <label for="gain">Gain:</label>
+                        <input type="range" id="gain" min="1" max="10" step="0.1" value="5">
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2023 Foobar Spectrum by <a href="https://asan.digital" target="_blank">Asan Digital</a></p>
+        </footer>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          let audioContext;
+          let analyser;
+          let dataArray;
+          let isDrawing = false;
+          let drawVisual;
+          const oscilloscopeCanvas = document.getElementById('oscilloscopeCanvas');
+          const oscilloscopeCtx = oscilloscopeCanvas.getContext('2d');
+          let dpr = window.devicePixelRatio || 1;
+          const fftSizeInput = document.getElementById('fftSize');
+          const gainInput = document.getElementById('gain');
 
-  function resizeCanvas() {
-    if (document.fullscreenElement) {
-      oscilloscopeCanvas.width = window.screen.width * dpr;
-      oscilloscopeCanvas.height = window.screen.height * dpr;
-    } else {
-      oscilloscopeCanvas.width = oscilloscopeCanvas.offsetWidth * dpr;
-      oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight * dpr;
-    }
-    oscilloscopeCtx.scale(dpr, dpr);
+          fftSizeInput.addEventListener('input', () => {
+            const newFftSize = parseInt(fftSizeInput.value);
+            // Update your FFT size settings or perform any other actions with newFftSize
+            console.log('FFT Size:', newFftSize);
+          });
+          gainInput.addEventListener('input', () => {
+            const newGain = parseFloat(gainInput.value);
+            // Update your gain settings or perform any other actions with newGain
+            console.log('Gain:', newGain);
+          });
 
-    if (isDrawing) {
-      drawOscilloscope();
-    }
-  }
+          oscilloscopeCanvas.width = oscilloscopeCanvas.offsetWidth * dpr;
+          oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight * dpr;
+          oscilloscopeCtx.scale(dpr, dpr);
 
-  function onFullScreenChange() {
-    resizeCanvas();
-  }
+          let lineThickness = 2;
 
-  oscilloscopeCanvas.addEventListener('click', toggleFullscreen);
+          function getRandomCyberpunkColor() {
+            const colors = ["#FF00FF", "#00FFFF", "#00FF00", "#FF0000", "#FFFF00"];
+            return colors[Math.floor(Math.random() * colors.length)];
+          }
 
-  oscilloscopeCanvas.addEventListener('dblclick', () => {
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
-    }
-  });
+          function resizeCanvas() {
+            if (document.fullscreenElement) {
+              oscilloscopeCanvas.width = window.screen.width * dpr;
+              oscilloscopeCanvas.height = window.screen.height * dpr;
+            } else {
+              oscilloscopeCanvas.width = oscilloscopeCanvas.offsetWidth * dpr;
+              oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight * dpr;
+            }
+            oscilloscopeCtx.scale(dpr, dpr);
 
-  document.addEventListener('fullscreenchange', onFullScreenChange);
+            if (isDrawing) {
+              drawOscilloscope();
+            }
+          }
 
-  function drawOscilloscope() {
-    if (!isDrawing) return;
+          function onFullScreenChange() {
+            resizeCanvas();
+          }
 
-    drawVisual = requestAnimationFrame(drawOscilloscope);
+          oscilloscopeCanvas.addEventListener('click', toggleFullscreen);
 
-    analyser.getByteTimeDomainData(dataArray);
+          oscilloscopeCanvas.addEventListener('dblclick', () => {
+            if (document.fullscreenElement) {
+              document.exitFullscreen();
+            }
+          });
 
-    oscilloscopeCtx.fillStyle = 'rgb(0, 0, 0)';
-    oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
+          document.addEventListener('fullscreenchange', onFullScreenChange);
 
-    oscilloscopeCtx.lineWidth = lineThickness;
-    oscilloscopeCtx.strokeStyle = getRandomCyberpunkColor();
+          function drawOscilloscope() {
+            if (!isDrawing) return;
 
-    oscilloscopeCtx.beginPath();
+            drawVisual = requestAnimationFrame(drawOscilloscope);
 
-    var sliceWidth = oscilloscopeCanvas.width / dataArray.length;
-    var x = 0;
-    var centerY = oscilloscopeCanvas.height / 2; // Calculate centerY
+            analyser.getByteTimeDomainData(dataArray);
 
-    for (var i = 0; i < dataArray.length; i++) {
-      var v = dataArray[i] / 128.0;
-      var y = v * oscilloscopeCanvas.height / 2;
+            oscilloscopeCtx.fillStyle = 'rgb(0, 0, 0)';
+            oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
 
-      if (i === 0) {
-        oscilloscopeCtx.moveTo(x, y);
-      } else {
-        oscilloscopeCtx.lineTo(x, y);
-      }
+            oscilloscopeCtx.lineWidth = lineThickness;
+            oscilloscopeCtx.strokeStyle = getRandomCyberpunkColor();
 
-      x += sliceWidth;
-    }
+            oscilloscopeCtx.beginPath();
 
-    oscilloscopeCtx.stroke();
-  }
+            var sliceWidth = oscilloscopeCanvas.width / dataArray.length;
+            var x = 0;
+            var centerY = oscilloscopeCanvas.height / 2; // Calculate centerY
 
-  function startOscilloscope() {
-    // Check if the AudioContext is available
-    const AudioContext = window.AudioContext || window.webkitAudioContext;
+            for (var i = 0; i < dataArray.length; i++) {
+              var v = dataArray[i] / 128.0;
+              var y = v * oscilloscopeCanvas.height / 2;
 
-    if (AudioContext) {
-      audioContext = new AudioContext();
+              if (i === 0) {
+                oscilloscopeCtx.moveTo(x, y);
+              } else {
+                oscilloscopeCtx.lineTo(x, y);
+              }
 
-      analyser = audioContext.createAnalyser();
-      analyser.fftSize = 8192;
-      dataArray = new Uint8Array(analyser.fftSize);
-      analyser.getByteTimeDomainData(dataArray);
+              x += sliceWidth;
+            }
 
-      navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
-        const source = audioContext.createMediaStreamSource(stream);
+            oscilloscopeCtx.stroke();
+          }
 
-        // Connect the source to the analyser
-        source.connect(analyser);
+          function startOscilloscope() {
+            // Check if the AudioContext is available
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
 
-        isDrawing = true;
-        drawVisual = requestAnimationFrame(drawOscilloscope);
-      }).catch(err => {
-        console.error('Error accessing microphone:', err);
-      });
-    } else {
-      console.error('Web Audio API is not supported in this browser.');
-    }
-  }
+            if (AudioContext) {
+              audioContext = new AudioContext();
 
-  function stopOscilloscope() {
-    if (!isDrawing) return;
+              analyser = audioContext.createAnalyser();
+              analyser.fftSize = 8192;
+              dataArray = new Uint8Array(analyser.fftSize);
+              analyser.getByteTimeDomainData(dataArray);
 
-    isDrawing = false;
-    cancelAnimationFrame(drawVisual);
+              navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+                const source = audioContext.createMediaStreamSource(stream);
 
-    if (audioContext) {
-      analyser.disconnect();
-      audioContext.close();
-    }
-  }
+                // Connect the source to the analyser
+                source.connect(analyser);
 
-  function toggleFullscreen() {
-    if (!document.fullscreenElement) {
-      oscilloscopeCanvas.requestFullscreen().catch(err => {
-        alert('Error attempting to enable fullscreen mode: ' + err.message);
-      });
-    } else {
-      document.exitFullscreen();
-    }
-  }
+                isDrawing = true;
+                drawVisual = requestAnimationFrame(drawOscilloscope);
+              }).catch(err => {
+                console.error('Error accessing microphone:', err);
+              });
+            } else {
+              console.error('Web Audio API is not supported in this browser.');
+            }
+          }
 
-  const startButton = document.getElementById('startButton');
-  const stopButton = document.getElementById('stopButton');
+          function stopOscilloscope() {
+            if (!isDrawing) return;
 
-  startButton.addEventListener('click', startOscilloscope);
-  stopButton.addEventListener('click', stopOscilloscope);
-});
+            isDrawing = false;
+            cancelAnimationFrame(drawVisual);
+
+            if (audioContext) {
+              analyser.disconnect();
+              audioContext.close();
+            }
+          }
+
+          function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+              oscilloscopeCanvas.requestFullscreen().catch(err => {
+                alert('Error attempting to enable fullscreen mode: ' + err.message);
+              });
+            } else {
+              document.exitFullscreen();
+            }
+          }
+
+          const startButton = document.getElementById('startButton');
+          const stopButton = document.getElementById('stopButton');
+
+          startButton.addEventListener('click', startOscilloscope);
+          stopButton.addEventListener('click', stopOscilloscope);
+
+        });
+    </script>
+</body>
+</html>
