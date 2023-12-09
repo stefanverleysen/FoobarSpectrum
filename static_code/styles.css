@@ -41,6 +41,7 @@ body, html {
 #audioVisualizerCanvas {
     width: 100%; /* Full width of the container */
     height: 65vh; /* Adjusted height, can be set as per design */
+    color: #000;
 }
 /* Container to hold everything in place */
 #container {
