@@ -5,6 +5,32 @@
     padding: 0;
 }
 
+/* Card styling for controls */
+.card {
+    background-color: #333;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+/* Styles for the sliders */
+#barAndSmoothingControls input[type=range] {
+    width: 100%; /* Full width for better control */
+    margin-top: 10px; /* Spacing above the slider */
+}
+
+/* Style for labels in the card */
+#barAndSmoothingControls label {
+    display: block; /* Makes label take a full line */
+    margin-top: 10px; /* Spacing above the label */
+}
+
+/* Style for span inside the labels */
+#barAndSmoothingControls span {
+    float: right; /* Aligns value to the right */
+}
+
 body, html {
     height: 100%;
     margin: 0;
