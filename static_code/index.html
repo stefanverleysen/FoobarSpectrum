@@ -5,37 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Foobar Spectrum Visualizer</title>
     <link rel="stylesheet" href="styles.css">  
- <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-01JKEKRL8S"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-01JKEKRL8S"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  gtag('config', 'G-01JKEKRL8S');
-</script>   
-  <script>
-
-// Ensure the DOM is fully loaded before attaching the event listener
-document.addEventListener("DOMContentLoaded", () => {
-
-    // Add an event listener for the fullscreen button
-    const fullscreenButton = document.getElementById("fullscreenButton");
-    fullscreenButton.addEventListener("click", toggleFullscreen);
-});
-
-// Function to toggle fullscreen mode for the visualizer canvas
-function toggleFullscreen() {
-    const canvas = document.getElementById("audioVisualizerCanvas");
-
-    if (!document.fullscreenElement) {
-        canvas.requestFullscreen().catch(err => {
-            alert(`Error attempting to enable fullscreen: ${err.message}`);
+      gtag('config', 'G-01JKEKRL8S');
+    </script>   
+    <script>
+        // Ensure the DOM is fully loaded before attaching the event listener
+        document.addEventListener("DOMContentLoaded", () => {
+            // Add an event listener for the fullscreen button
+            const fullscreenButton = document.getElementById("fullscreenButton");
+            fullscreenButton.addEventListener("click", toggleFullscreen);
         });
-    } else {
-        document.exitFullscreen();
-    }
-}
+
+        // Function to toggle fullscreen mode for the visualizer canvas
+        function toggleFullscreen() {
+            const canvas = document.getElementById("audioVisualizerCanvas");
+
+            if (!document.fullscreenElement) {
+                canvas.requestFullscreen().catch(err => {
+                    alert(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
     </script>
 </head>
 <body>
@@ -49,28 +47,25 @@ function toggleFullscreen() {
         </header>
         <main>
             <div id="visualizer-container">
+                <canvas id="audioVisualizerCanvas"></canvas>
+                <div id="basicControls" class="card">
+                    <button id="startVisualization">Start</button>
+                    <button id="stopVisualization">Stop</button>
+                    <button id="fullscreenButton">Fullscreen</button> <!-- Fullscreen button added -->
+                </div>
 
-    <canvas id="audioVisualizerCanvas"></canvas>
+                <div id="barAndSmoothingControls" class="card">
+                    <label for="barCountSlider">Number of Bars: <span id="barCountValue">50</span></label>
+                    <input type="range" id="barCountSlider" min="10" max="200" value="50">
 
-    <div id="basicControls" class="card">
-      <button id="startVisualization">Start</button>
-      <button id="stopVisualization">Stop</button> 
-    </div>
-
-    <div id="barAndSmoothingControls" class="card">
-      <label for="barCountSlider">Number of Bars: <span id="barCountValue">50</span></label>
-      <input type="range" id="barCountSlider" min="10" max="200" value="50">
-
-      <label for="smoothingSlider">Smoothing <span id="smoothingValue">0.8</span></label>  
-      <input type="range" id="smoothingSlider" min="0" max="1" step="0.01" value="0.8">
-    </div>
-
-  </div>
+                    <label for="smoothingSlider">Smoothing <span id="smoothingValue">0.8</span></label>  
+                    <input type="range" id="smoothingSlider" min="0" max="1" step="0.01" value="0.8">
+                </div>
+            </div>
         </main>
         <footer>
-    <p>&copy; 2023 Foobar Spectrum by <a href="https://asan.digital" target="_blank">Asan Digital</a></p>
-</footer>
-
+            <p>&copy; 2023 Foobar Spectrum by <a href="https://asan.digital" target="_blank">Asan Digital</a></p>
+        </footer>
     </div>
     <script src="visualizer.js"></script>
 </body>
