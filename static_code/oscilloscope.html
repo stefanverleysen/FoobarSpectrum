@@ -30,22 +30,21 @@
         <main>
             <div id="visualizer-container">
                 <canvas id="oscilloscopeCanvas" style="width: 100%; height: 65vh;"></canvas>
-                <div id="controls" class="card">
+                <div id="controls" class="card"> <!-- Apply the "card" class here -->
                     <!-- Start, Stop, and Fullscreen buttons -->
                     <div id="basicControls">
-                        <button id="startButton">Start</button>
-                        <button id="stopButton">Stop</button>
+                        <button id="startVisualization">Start</button> <!-- Use the same IDs as in the Index page -->
+                        <button id="stopVisualization">Stop</button>
                         <button id="fullscreenButton">Fullscreen</button>
                     </div>
-          <div class="control-card">
-              <h2>Audio Controls</h2>
-                  <label for="fftSize">FFT Size:</label>
-                  <input type="range" id="fftSize" min="32" max="8192" step="32" value="8192">
-                  <br>
-                  <label for="gain">Gain:</label>
-                  <input type="range" id="gain" min="1" max="10" step="0.1" value="5">
-            </div>
-
+                    <div class="control-card"> <!-- Apply the "card" class here -->
+                        <h2>Audio Controls</h2>
+                        <label for="fftSize">FFT Size:</label>
+                        <input type="range" id="fftSize" min="32" max="8192" step="32" value="8192">
+                        <br>
+                        <label for="gain">Gain:</label>
+                        <input type="range" id="gain" min="1" max="10" step="0.1" value="5">
+                    </div>
                 </div>
             </div>
         </main>
