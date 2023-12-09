@@ -38,6 +38,7 @@
                         <button id="fullscreenButton">Fullscreen</button>
                     </div>
                     <div class="control-card">
+                        <h2>Audio Controls</h2>
                         <label for="fftSize">FFT Size:</label>
                         <input type="range" id="fftSize" min="32" max="8192" step="32" value="8192">
                         <br>
@@ -61,6 +62,19 @@
           const oscilloscopeCanvas = document.getElementById('oscilloscopeCanvas');
           const oscilloscopeCtx = oscilloscopeCanvas.getContext('2d');
           let dpr = window.devicePixelRatio || 1;
+          const fftSizeInput = document.getElementById('fftSize');
+          const gainInput = document.getElementById('gain');
+
+          fftSizeInput.addEventListener('input', () => {
+            const newFftSize = parseInt(fftSizeInput.value);
+            // Update your FFT size settings or perform any other actions with newFftSize
+            console.log('FFT Size:', newFftSize);
+          });
+          gainInput.addEventListener('input', () => {
+            const newGain = parseFloat(gainInput.value);
+            // Update your gain settings or perform any other actions with newGain
+            console.log('Gain:', newGain);
+          });
 
           oscilloscopeCanvas.width = oscilloscopeCanvas.offsetWidth * dpr;
           oscilloscopeCanvas.height = oscilloscopeCanvas.offsetHeight * dpr;
