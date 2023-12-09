@@ -117,39 +117,45 @@
           document.addEventListener('fullscreenchange', onFullScreenChange);
 
           function drawOscilloscope() {
-            if (!isDrawing) return;
+  if (!isDrawing) return;
 
-            drawVisual = requestAnimationFrame(drawOscilloscope);
+  drawVisual = requestAnimationFrame(drawOscilloscope);
 
-            analyser.getByteTimeDomainData(dataArray);
+  analyser.getByteTimeDomainData(dataArray);
 
-            oscilloscopeCtx.fillStyle = 'rgb(0, 0, 0)';
-            oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
+  // Apply the gain to the audio data
+  const gainValue = parseFloat(gainInput.value);
+  for (let i = 0; i < dataArray.length; i++) {
+    dataArray[i] = dataArray[i] * gainValue;
+  }
 
-            oscilloscopeCtx.lineWidth = lineThickness;
-            oscilloscopeCtx.strokeStyle = getRandomCyberpunkColor();
+  oscilloscopeCtx.fillStyle = 'rgb(0, 0, 0)';
+  oscilloscopeCtx.fillRect(0, 0, oscilloscopeCanvas.width, oscilloscopeCanvas.height);
 
-            oscilloscopeCtx.beginPath();
+  oscilloscopeCtx.lineWidth = lineThickness;
+  oscilloscopeCtx.strokeStyle = getRandomCyberpunkColor();
 
-            var sliceWidth = oscilloscopeCanvas.width / dataArray.length;
-            var x = 0;
-            var centerY = oscilloscopeCanvas.height / 2; // Calculate centerY
+  oscilloscopeCtx.beginPath();
 
-            for (var i = 0; i < dataArray.length; i++) {
-              var v = dataArray[i] / 128.0;
-              var y = v * oscilloscopeCanvas.height / 2;
+  var sliceWidth = oscilloscopeCanvas.width / dataArray.length;
+  var x = 0;
+  var centerY = oscilloscopeCanvas.height / 2; // Calculate centerY
 
-              if (i === 0) {
-                oscilloscopeCtx.moveTo(x, y);
-              } else {
-                oscilloscopeCtx.lineTo(x, y);
-              }
+  for (var i = 0; i < dataArray.length; i++) {
+    var v = dataArray[i] / 128.0;
+    var y = v * oscilloscopeCanvas.height / 2;
 
-              x += sliceWidth;
-            }
+    if (i === 0) {
+      oscilloscopeCtx.moveTo(x, y);
+    } else {
+      oscilloscopeCtx.lineTo(x, y);
+    }
 
-            oscilloscopeCtx.stroke();
-          }
+    x += sliceWidth;
+  }
+
+  oscilloscopeCtx.stroke();
+}
 
           function startOscilloscope() {
             // Check if the AudioContext is available
