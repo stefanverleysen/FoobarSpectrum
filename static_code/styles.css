@@ -4,7 +4,6 @@
     margin: 0;
     padding: 0;
 }
-
 /* Override the link styles for the header navigation items */
 header a {
     color: white; /* Set the desired text color */
@@ -49,7 +48,11 @@ body, html {
     background-color: #1a1a1a; /* Classic Foobar dark theme */
     color: #fff;
 }
-
+#audioVisualizerCanvas {
+    width: 100%; /* Full width of the container */
+    height: 65vh; /* Adjusted height, can be set as per design */
+    color: #000;
+}
 /* Container to hold everything in place */
 #container {
     min-height: 100%;
