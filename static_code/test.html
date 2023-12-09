@@ -21,7 +21,11 @@
             const fullscreenButton = document.getElementById("fullscreenButton");
             fullscreenButton.addEventListener("click", toggleFullscreen);
         });
-
+    
+        document.getElementById('number-of-bars-icon').addEventListener('click', function() {
+        var slider = document.getElementById('number-of-bars-slider');
+        slider.style.display = slider.style.display === 'none' ? 'block' : 'none';
+    });
         // Function to toggle fullscreen mode for the visualizer canvas
         function toggleFullscreen() {
             const canvas = document.getElementById("audioVisualizerCanvas");
