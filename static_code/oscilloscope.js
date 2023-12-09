@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   oscilloscopeCtx.stroke();
 }
-  }
+  
 
   function startOscilloscope() {
     // Check if the AudioContext is available
