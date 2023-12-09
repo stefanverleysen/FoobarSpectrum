@@ -51,11 +51,12 @@ function draw() {
     animationId = requestAnimationFrame(draw);
     const bufferLength = analyser.frequencyBinCount;
     const dataArray = new Uint8Array(bufferLength);
+
     analyser.getByteFrequencyData(dataArray);
-    canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
 
     const barWidth = calculateBarWidth();
     let x = 0;
+
     for (let i = 0; i < barCount; i++) {
         const barHeight = dataArray[i] * (canvas.height / 256);
         canvasCtx.fillStyle = getRandomCyberpunkColor();
