@@ -186,7 +186,6 @@ function updateSmoothingValue() {
 document.getElementById('startVisualization').addEventListener('click', startVisualization);
 document.getElementById('stopVisualization').addEventListener('click', stopVisualization);
 barCountSlider.addEventListener('input', updateBarCountValue);
-fftSizeSlider.addEventListener('input', updateFFTSizeValue);
 smoothingSlider.addEventListener('input', updateSmoothingValue);
 
 // Event listener for keydown to handle key presses
@@ -208,13 +207,6 @@ document.addEventListener('keydown', (event) => {
             // Space key pressed, stop or start visualization
             isStopped = false;
             startVisualization();
-        } else if (event.key === 'ArrowLeft') {
-            // Left arrow key pressed, change bar colors (implement your logic here)
-            changeBarColors('left'); // Implement the function to change colors
-        } else if (event.key === 'ArrowRight') {
-            // Right arrow key pressed, change bar colors (implement your logic here)
-            changeBarColors('right'); // Implement the function to change colors
-        }
     }
 });
 
