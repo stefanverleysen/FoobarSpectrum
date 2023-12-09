@@ -84,8 +84,11 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('Gain Value:', gainValue);
 
   for (var i = 0; i < dataArray.length; i++) {
-    var v = dataArray[i] / 128.0;
-    var y = v * oscilloscopeCanvas.height / 2;
+
+  var v = dataArray[i] / 128.0;
+  v *= currentGain; // Apply gain
+  
+  var y = v * oscilloscopeCanvas.height / 2;
 
     if (i === 0) {
       oscilloscopeCtx.moveTo(x, y);
