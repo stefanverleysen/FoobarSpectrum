@@ -158,12 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const startButton = document.getElementById('startButton');
   const stopButton = document.getElementById('stopButton');
-  
- // Event listener for Oscilloscope link
-        document.getElementById("oscilloscope-link").addEventListener("click", (event) => {
-            event.preventDefault(); // Prevents the default link behavior
-            startOscilloscope();    // Assuming this is the function used by the start button
-        });
+
   
   startButton.addEventListener('click', startOscilloscope);
   stopButton.addEventListener('click', stopOscilloscope);
