@@ -1,199 +1,132 @@
-/* General reset and base styles */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
-/* Override the link styles for the header navigation items */
-header a {
-    color: white; /* Set the desired text color */
-    text-decoration: none; /* Remove underlines if necessary */
-}
-
-/* Optionally, you can add hover styles for links */
-header a:hover {
-    color: #ffffff; /* Change the color on hover */
-}
-
-/* Card styling for controls */
-.card {
-    background-color: #333;
-    border-radius: 10px;
-    padding: 20px;
-    margin-top: 20px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-}
-
-/* Styles for the sliders */
-#barAndSmoothingControls input[type=range] {
-    width: 100%; /* Full width for better control */
-    margin-top: 10px; /* Spacing above the slider */
-}
-
-/* Style for labels in the card */
-#barAndSmoothingControls label {
-    display: block; /* Makes label take a full line */
-    margin-top: 10px; /* Spacing above the label */
-}
-
-/* Style for span inside the labels */
-#barAndSmoothingControls span {
-    float: right; /* Aligns value to the right */
-}
 
 body, html {
     height: 100%;
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: #1a1a1a; /* Classic Foobar dark theme */
-    color: #fff;
-}
-#audioVisualizerCanvas {
-    width: 100%; /* Full width of the container */
-    height: 65vh; /* Adjusted height, can be set as per design */
-    color: #000;
-}
-/* Container to hold everything in place */
-#container {
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    background-color: #1a1a1a; /* Set background color */
+    overflow: hidden;
+    font-family: 'Roboto', sans-serif;
+    background-color: #121212;
+    color: #ffffff;
 }
 
-/* Header styling */
+#container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
 header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 1em;
-    background-color: #333;
+    padding: 10px;
+    background-color: #1e1e1e;
 }
 
 #logo {
-    height: 100px;
+    height: 40px;
+    margin-right: 15px;
 }
 
-nav {
-    display: flex;
+h1 {
+    font-size: 1.2em;
+    font-weight: 500;
 }
 
-/* Header link color change */
-nav a {
-    color: #fff;
-    text-decoration: none;
-    padding: 0 1em;
-}
-
-nav a:hover, nav a.active {
-    color: #fff;
-}
-
-/* Main content styling */
 main {
     flex: 1;
-    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    overflow: hidden;
 }
 
 #visualizer-container {
-    position: relative;
-    width: 100%; /* Set the width to 100% */
-    max-width: 100%; /* Limit the maximum width to 100% */
-    height: auto; /* Allow the height to adjust based on content */
+    flex: 1;
+    background-color: #000000;
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* Default background for the visualizer canvas */
-#oscilloscopeCanvas {
+#audioVisualizerCanvas {
     width: 100%;
-    height: 65vh;
-    background-color: #000;
+    height: 100%;
 }
 
-/* Controls styling */
-#basicControls,
-#advancedControls {
-    background-color: #333;
-    border-radius: 10px;
-    padding: 20px;
-    margin-top: 20px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+#controls {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #1e1e1e;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
-button {
-    padding: 0.5em;
+.control-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+button, select, label {
+    font-size: 1em; /* Set font size for buttons, select dropdown, and labels */
+}
+
+button, select {
+    padding: 5px 10px;
     background-color: #333;
-    color: #fff;
+    color: white;
     border: none;
+    border-radius: 4px;
     cursor: pointer;
+    margin-right: 5px; /* Reduced margin to bring the buttons closer */
 }
 
-button:hover {
+button:hover, select:hover {
     background-color: #444;
 }
 
-/* Slider labels */
-#advancedControls label {
+#settings.hidden {
+    display: none;
+}
+
+.slider-group {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    width: 200px; /* Fixed width for sliders */
+    margin-bottom: 10px;
 }
 
-#advancedControls span {
-    margin-left: 8px;
-    font-weight: bold;
+input[type="range"] {
+    width: 100%;
 }
 
-/* Footer styling */
 footer {
-    background-color: #333;
-    color: #aaa;
+    padding: 10px;
+    background-color: #1e1e1e;
     text-align: center;
-    padding: 1em;
+    font-size: 0.8em;
 }
 
 footer a {
-    color: #fff; /* This will make the links white */
-    text-decoration: none; /* Optional: removes the underline from links */
+    color: #00ffff;
+    text-decoration: none;
 }
-/* Stef Experimental Code */
-.control {
-    display: flex;
-    align-items: center;
-}
-
-#number-of-bars-icon {
-    cursor: pointer; /* Indicates the icon is clickable */
-    width: 128px; /* Size of the icon */
-    height: 128px;
-}
-
-.slider {
-    /* Style your slider here */
-    margin-left: 10px; /* Adds some space between the icon and the slider */
-}
-
-
-
-footer a:hover {
-    color: #ccc; /* Optional: changes color on hover for visual feedback */
-}
-
-/* Additional original styles */
 
 @media (max-width: 768px) {
-    header, nav {
+    .control-group {
         flex-direction: column;
+        align-items: flex-start;
     }
 
-    nav a {
-        margin-bottom: 0.5em;
-    }
-
-    #basicControls button {
-        width: 100%;
-    }
-
-    #oscilloscopeCanvas {
-        height: 60vh; /* Adjusted height for smaller screens */
+    button, select {
+        margin-right: 0;
+        margin-bottom: 10px;
     }
 }

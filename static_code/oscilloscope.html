@@ -1,23 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-  /* Hide the audio controls */
-  .control-card {
-    display: none;
-  }
-</style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Foobar Oscilloscope</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-01JKEKRL8S"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag() {
-            dataLayer.push(arguments);
-        }
+        function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-01JKEKRL8S');
     </script>
@@ -25,37 +18,31 @@
 <body>
     <div id="container">
         <header>
-<a href="index.html">
-  <img src="Foobarspectrumlogo2.png" alt="Foobar Spectrum Logo" id="logo">
-</a>
+            <img src="Foobarspectrumlogo2.png" alt="Foobar Spectrum Logo" id="logo">
             <nav>
-                <a href="index.html" id="foobar-title">Spectrum</a>
-                <a href="oscilloscope.html" id="foobar-title">Oscilloscope</a>
+                <a href="index.html">Spectrum</a>
+                <a href="oscilloscope.html" class="active">Oscilloscope</a>
             </nav>
         </header>
         <main>
             <div id="visualizer-container">
-                <canvas id="oscilloscopeCanvas" style="width: 100%; height: 65vh;"></canvas>
-                <div id="controls" class="card">
-                    <!-- Start, Stop, Fullscreen, Gain, and FFT Size buttons -->
-                    <div id="basicControls">
-                        <button id="startButton">Start</button>
-                        <button id="stopButton">Stop</button>
-                        <button id="fullscreenButton">Fullscreen</button>
-                    </div>
-                    <div class="control-card">
-                        <h2>Audio Controls</h2>
-                        <label for="gain">Gain:</label>
-                        <input type="range" id="gain" min="1" max="10" step="0.1" value="5">
-                        <br>
-                        <label for="fftSize">FFT Size:</label>
-                        <input type="range" id="fftSize" min="32" max="8192" step="32" value="8192">
-                    </div>
-                </div>
+                <canvas id="oscilloscopeCanvas"></canvas>
+            </div>
+            <div id="controls">
+                <button id="startButton">Start</button>
+                <button id="stopButton">Stop</button>
+                <select id="themeSelect">
+                    <option value="cyberpunk">Cyberpunk</option>
+                    <option value="retro">Retro</option>
+                    <option value="neon">Neon</option>
+                    <option value="pastel">Pastel</option>
+                </select>
+                <input type="range" id="gainSlider" min="1" max="10" step="0.1" value="5">
+                <input type="range" id="fftSizeSlider" min="5" max="15" value="13">
             </div>
         </main>
         <footer>
-            <p>&copy; 2023 Foobar Spectrum by <a href="https://asan.digital" target="_blank">Asan Digital</a></p>
+            <p>&copy; 2024 Foobar Spectrum by <a href="https://asan.digital" target="_blank">Asan Digital</a></p>
         </footer>
     </div>
     <script src="oscilloscope.js"></script>

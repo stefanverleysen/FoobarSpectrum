@@ -4,70 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Foobar Spectrum Visualizer</title>
-    <link rel="stylesheet" href="styles.css">  
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-01JKEKRL8S"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-01JKEKRL8S');
-    </script>   
-    <script>
-        // Ensure the DOM is fully loaded before attaching the event listener
-        document.addEventListener("DOMContentLoaded", () => {
-            // Add an event listener for the fullscreen button
-            const fullscreenButton = document.getElementById("fullscreenButton");
-            fullscreenButton.addEventListener("click", toggleFullscreen);
-        });
-
-        // Function to toggle fullscreen mode for the visualizer canvas
-        function toggleFullscreen() {
-            const canvas = document.getElementById("audioVisualizerCanvas");
-
-            if (!document.fullscreenElement) {
-                canvas.requestFullscreen().catch(err => {
-                    alert(`Error attempting to enable fullscreen: ${err.message}`);
-                });
-            } else {
-                document.exitFullscreen();
-            }
-        }
-    </script>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id="container">
-<header>
-    <img src="Foobarspectrumlogo2.png" alt="Foobar Spectrum Logo" id="logo">
-    <nav>
-        <a href="index.html" id="foobar-title">Spectrum</a>
-        <a href="oscilloscope.html" id="oscilloscope-link">Oscilloscope</a> <!-- Note the unique ID here -->
-    </nav>
-</header>
+        <header>
+            <img src="Foobarspectrumlogo2.png" alt="Foobar Spectrum Logo" id="logo">
+            <h1>Foobar Spectrum Visualizer</h1>
+        </header>
         <main>
             <div id="visualizer-container">
                 <canvas id="audioVisualizerCanvas"></canvas>
-                <div id="basicControls" class="card">
+            </div>
+            <div id="controls">
+                <div class="control-group">
                     <button id="startVisualization">Start</button>
                     <button id="stopVisualization">Stop</button>
-                    <button id="fullscreenButton">Fullscreen</button> <!-- Fullscreen button added -->
+                    <select id="themeSelect">
+                        <option value="cyberpunk">Cyberpunk</option>
+                        <option value="retro">Retro</option>
+                        <option value="neon">Neon</option>
+                        <option value="pastel">Pastel</option>
+                        <option value="calm">Calm</option>
+                        <option value="primary">Primary Colors</option>
+                    </select>
+                    <button id="toggleSettings">Settings</button>
                 </div>
-
-                <div id="barAndSmoothingControls" class="card">
-                    <label for="barCountSlider">Number of Bars: <span id="barCountValue">50</span></label>
-                    <input type="range" id="barCountSlider" min="10" max="200" value="50">
-
-                    <label for="smoothingSlider">Smoothing <span id="smoothingValue">0.8</span></label>  
-                    <input type="range" id="smoothingSlider" min="0" max="1" step="0.01" value="0.8">
+                <div id="settings" class="hidden">
+                    <div class="slider-group">
+                        <label for="barCountSlider">Bars: <span id="barCountValue">50</span></label>
+                        <input type="range" id="barCountSlider" min="10" max="200" value="50">
+                    </div>
+                    <div class="slider-group">
+                        <label for="smoothingSlider">Smoothing: <span id="smoothingValue">0.8</span></label>
+                        <input type="range" id="smoothingSlider" min="0" max="1" step="0.01" value="0.8">
+                    </div>
+                    <div class="slider-group">
+                        <label for="sensitivitySlider">Sensitivity: <span id="sensitivityValue">1</span></label>
+                        <input type="range" id="sensitivitySlider" min="0.1" max="5" step="0.1" value="1">
+                    </div>
                 </div>
             </div>
         </main>
         <footer>
-            <p>&copy; 2023 Foobar Spectrum by <a href="https://asan.digital" target="_blank">Asan Digital</a></p>
+            <p>&copy; 2024 Foobar Spectrum by <a href="https://asan.digital" target="_blank">Asan Digital</a></p>
         </footer>
     </div>
     <script src="visualizer.js"></script>
-    <script src="oscilloscope.js"></script>
 </body>
 </html>
